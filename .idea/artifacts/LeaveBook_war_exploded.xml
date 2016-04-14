@@ -7,6 +7,10 @@
         <element id="directory" name="classes">
           <element id="module-output" name="LeaveBook" />
         </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="mysql-connector-java-5.0.8-bin" />
+          <element id="file-copy" path="$PROJECT_DIR$/lib/mysql-connector-java-5.0.8-bin.jar" />
+        </element>
       </element>
     </root>
   </artifact>

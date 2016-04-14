@@ -27,15 +27,16 @@
       out.print("<a href='index.jsp?pageNumber=3'>Reports</a><br>");
     }
     else if(openPage.intern()=="1"){
-      response.setStatus(response.SC_MOVED_TEMPORARILY);
-      response.setHeader("Location","warden.html");
+      response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+      //redirects to page which allows permission to 'email permission' students
+      response.setHeader("Location","permission.html");
     }
     else if(openPage.intern()=="2"){
-      response.setStatus(response.SC_MOVED_TEMPORARILY);
+      response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
       response.setHeader("Location","guard.html");
     }
     else if(openPage.intern()=="3"){
-      response.setStatus(response.SC_MOVED_TEMPORARILY);
+      response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
       response.setHeader("Location","reports.html");
     }
   %>
