@@ -25,21 +25,24 @@
         String timeOut="1";
         String timeIn="1";
         */
-       DataBase db=new DataBase();
-       //String success=db.insert("INSERT INTO employees VALUES(11,11,'first','and_last');");
-       ResultSet result=db.select("SELECT * FROM employees;");
-       if(result!=null){
-           while(result.next()){
-            out.print(result.getInt("id"));
-            out.print(result.getInt("age"));
-            out.print(result.getString("first"));
-            out.print(result.getString("last")+"<br>");
-           }
-       }
-       else
-       out.print("null from resultset");
+       DataBase db=new DataBase(); //returns String "success" on successful execition
+       if(db.success.intern()=="success")
+       {
+               //String success=db.insert("INSERT INTO employees VALUES(11,11,'first','and_last');");
+               ResultSet result=db.select("SELECT * FROM employees;");
+               if(result!=null){
+                   while(result.next()){
+                    out.print(result.getInt("id"));
+                    out.print(result.getInt("age"));
+                    out.print(result.getString("first"));
+                    out.print(result.getString("last")+"<br>");
+                   }
+               }
+               else
+               out.print("null from resultset");
 
-       //necessary for closing db connection
-       db.close();
+               //necessary for closing db connection
+               String success=db.close();
+       }
     //out.print("{success:"+success+",studentId:"+studentId+"}");
 %>

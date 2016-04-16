@@ -98,40 +98,58 @@ public class DataBase {
         return success;
     }*/
     //takes in sql insert command as string and return String success=success if the operation is performed uninterrupted
-    Connection con=null;
-    ResultSet rs=null;
-    PreparedStatement st=null;
+    Connection con;
+    ResultSet rs;
+    PreparedStatement st;
+    public String success;
 
-    public String insert(String sqlStatement){
-        String success="failed";
-         con=null;
-         st=null;
-
+    /**
+     * constructor method sets up connection to db and gets into transaction mode
+     * sets up the  success variable as failed in case of failure
+    */
+    public DataBase(){
+        con=null;
+        st=null;
+        rs=null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
-            success = "failed";
-            return success; //terminate the function
+
+            success="failed";
         }
+        try {
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/emp", "root", ""); //url of the db with username and password
+            con.setAutoCommit(false); //to enable transactions
+        }catch (SQLException e){
+            success="failed";
+        }
+        success="success";
+    }
+
+    /**
+     * performs insert query on database specified by sqlStatement query
+     * returns String "success" on completion without interruption and String "failed" in case of any Exception
+     * */
+    public String insert(String sqlStatement){
+        String success="failed";
+
          try{
-             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/emp", "root", "");
-             con.setAutoCommit(false); //to enable transactions
              //preparing insert statement
              st = con.prepareStatement(sqlStatement);
-
              st.executeUpdate();
-             con.commit();
+
              success = "success";
          }catch(SQLException e){
              if (con != null)
              {
                  try{con.rollback();}catch(Exception e1) {
-                     success="failed";
+                         //cannot rollback
+                         success="failed";
+                         return success;
                  }
              }
             // e.printStackTrace(); //TO BE REMOVED
              success = "failed";
-
              return success; //terminate the function
          }
              return success;
@@ -140,16 +158,7 @@ public class DataBase {
     //for select statement on mysql db
     public ResultSet select(String sqlStatement){
 
-         con=null;
-         rs=null;
-         st=null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            return rs; //terminate the function with rs as null
-        }
-        try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/emp", "root", "");
             //preparing insert statement
             st = con.prepareStatement(sqlStatement);
             rs=st.executeQuery();
@@ -160,8 +169,16 @@ public class DataBase {
         return rs;
     }
 
+    /**
+     *  close() required to commit all changes to database
+     *  closes all the open connection in the db
+     * */
     //to close db connections
-    public void close(){
+    public String close(){
+
+        try{con.commit();}catch(SQLException  e){return "failed";}
+
+
         if(con!=null)
         {   //closong connection
             try{con.close();}catch(Exception e){
@@ -178,5 +195,6 @@ public class DataBase {
                 //Ignore
             }
         }
+        return "success";
     }
 }
