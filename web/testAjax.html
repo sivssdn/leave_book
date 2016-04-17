@@ -25,8 +25,8 @@
             alert("Ajax not supported");
 
       //  if(document.getElementById("type").nodeValue=="id")
-        var url="autocomplete.jsp?name="+document.getElementById("value").nodeValue+"&type="+document.getElementById("value1").nodeValue;
-
+        var url="autocomplete.jsp?name="+document.getElementById("value").value+"&type="+document.getElementById("value1").value;
+        //alert(document.getElementById("value").value);
 
         xhr.onreadystatechange=handler;
         xhr.open("GET",url,true);
@@ -38,7 +38,8 @@
             if(xhr.status==200){
                 var response=eval("("+ xhr.responseText +")");//converting to an object ::JSON
                 var div=document.createElement("div");
-                var text=document.createTextNode("Appended : <br>"+xhr.response);
+                var text=document.createTextNode("Appended :"+xhr.response);
+                var text=document.createTextNode("Appended :"+response.name);
                 div.appendChild(text);
                 document.getElementById("cr").appendChild(div);
             }
