@@ -24,13 +24,15 @@ public class DataBase {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
 
-            success="failed";
+            //success="failed";
+            success=e.getMessage();
         }
         try {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/leave_book", "root", ""); //url of the db with username and password
             con.setAutoCommit(false); //to enable transactions
         }catch (SQLException e){
-            success="failed";
+            //success="failed";
+            success=e.getMessage();
         }
         success="success";
     }
@@ -40,7 +42,7 @@ public class DataBase {
      * returns String "success" on completion without interruption and String "failed" in case of any Exception
      * */
     public String insert(String insertStatement){
-        String success="success";
+        String success="inserted";
         st=null;
          try{
              //preparing insert statement
@@ -57,7 +59,8 @@ public class DataBase {
                  }
              }
             // e.printStackTrace(); //TO BE REMOVED
-             success = "failed";
+             //success = "failed";
+             success=e.getMessage();
              return success; //terminate the function
          }
              return success;

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        Ajax Append
+    </title>
+</head>
+<body>
+<input type="text" id="value"><br>
+<input type="text" id="value1" placeholder="id/name/hid"><br>
+<input type="button" value="Make ajax request" onclick="ajax()">
+<div id="cr">
+    wait for 2s after clicking the button
+</div>
+</body>
+<script>
+    var xhr=null;
+    function ajax(){
+        try{
+            xhr=new XMLHttpRequest();
+        }catch(e){
+            xhr=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        if(xhr==null)
+            alert("Ajax not supported");
+
+      //  if(document.getElementById("type").nodeValue=="id")
+        var url="autocomplete.jsp?name="+document.getElementById("value").nodeValue+"&type="+document.getElementById("value1").nodeValue;
+
+
+        xhr.onreadystatechange=handler;
+        xhr.open("GET",url,true);
+        xhr.send(null);
+
+    }
+    function handler(){
+        if(xhr.readyState==4){
+            if(xhr.status==200){
+                var response=eval("("+ xhr.responseText +")");//converting to an object ::JSON
+                var div=document.createElement("div");
+                var text=document.createTextNode("Appended : <br>"+xhr.response);
+                div.appendChild(text);
+                document.getElementById("cr").appendChild(div);
+            }
+        }
+    }
+
+</script>
+</html>
