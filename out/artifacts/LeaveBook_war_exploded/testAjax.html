@@ -36,12 +36,20 @@
     function handler(){
         if(xhr.readyState==4){
             if(xhr.status==200){
-                var response=eval("("+ xhr.responseText +")");//converting to an object ::JSON
+                //var response=eval("("+ xhr.responseText +")");//converting to an object ::JSON
                 var div=document.createElement("div");
-                var text=document.createTextNode("Appended :"+xhr.response);
-                var text=document.createTextNode("Appended :"+response.name);
-                div.appendChild(text);
-                document.getElementById("cr").appendChild(div);
+                //var text=document.createTextNode("Appeded :"+JSON.parse(xhr.response));
+                //loop over array
+                var details=JSON.parse(xhr.responseText);
+                for(var i = 0; i < details.length; i++)
+                {
+                    document.write(details[i].name);
+                    document.write(details[i].email);
+                    document.write(details[i].status);
+
+                }
+                //div.appendChild(text);
+                //document.getElementById("cr").appendChild(div);
             }
         }
     }

@@ -44,18 +44,18 @@
             //preparing JSON output
             out.print("[");
             while(rows.next()){ //while records exists returned from select query
-                out.print("{");
-                out.print("id:'"+rows.getString("student_id")+"',");
-                out.print("name:'"+rows.getString("name")+"',");
-                out.print("primary:'"+rows.getString("primary_contact")+"',");
-                out.print("secondary:'"+rows.getString("secondary_contact")+"',");
-                out.print("batch:'"+rows.getString("batch")+"',");
-                out.print("email:'"+rows.getString("email")+"',");
-                out.print("hostel:'"+rows.getString("hostel")+"',");
-                out.print("room:'"+rows.getString("room_number")+"',");
-                out.print("image:'"+rows.getString("image")+"',");
-                out.print("permission:'"+rows.getString("permission")+"',");
-                out.print("status:'"+rows.getString("status")+"'");
+                out.print("\n{");
+                out.print("\"id\":\""+rows.getString("student_id")+"\",");
+                out.print("\"name\":\""+rows.getString("name")+"\",");
+                out.print("\"primary\":\""+rows.getString("primary_contact")+"\",");
+                out.print("\"secondary\":\""+rows.getString("secondary_contact")+"\",");
+                out.print("\"batch\":\""+rows.getString("batch")+"\",");
+                out.print("\"email\":\""+rows.getString("email")+"\",");
+                out.print("\"hostel\":\""+rows.getString("hostel")+"\",");
+                out.print("\"room\":\""+rows.getString("room_number")+"\",");
+                out.print("\"image\":\""+rows.getString("image")+"\",");
+                out.print("\"permission\":\""+rows.getString("permission")+"\",");
+                out.print("\"status\":\" "+rows.getString("status")+"\" ");
                 out.print("},");
             }
             out.print("{}]");

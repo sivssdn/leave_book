@@ -29,7 +29,7 @@
 
     Validate input=new Validate();
     //validating inputs
-    if((studentId.length()>0 && studentId.intern() != " ")  && input.isDate(dateOut) && input.isDate(dateIn) && input.isTime(timeOut) && input.isTime(timeIn))
+    if(input.isStudentId(studentId)  && input.isDate(dateOut) && input.isDate(dateIn) && input.isTime(timeOut) && input.isTime(timeIn))
     {
         //if the date-in is not specified than enter's the loop or else the date in must be greater than equal to date out
         if(input.validateDates(dateOut,dateIn) || dateIn.intern()=="0000-00-00") {

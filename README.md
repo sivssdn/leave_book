@@ -1,4 +1,6 @@
 #add index to key HID
+#big int to contact-master
+
 # leave_book
 The project aims at digitalizing the process of entry-exit at Ashoka using HID. 
 
