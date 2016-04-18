@@ -6,12 +6,83 @@
 </head>
 <body>
     <form method="post" action="permission.jsp">
-    Student id : <input type="text" name="student_id"> <br>
+    Name : <input type="text" id="name" name="name" list="names" onkeyup="getName()"> <br>
+        <datalist id="names">
+        </datalist>
+    Student id : <input type="text" name="student_id" id="student_id"> <br>
     Date out : <input type="date" name="date_out" ><br>
     Time out : <input type="time" name="time_out"><br>
     Date in : <input type="date" name="date_in" ><br>
     Time in : <input type="time" name="time_in"><br>
     <input type="submit" value="submit">
     </form>
+    <img src="" id="student_image" height="200" width="100" >
 </body>
+
+<script>
+    var xhr = null;
+    var images=[];
+    var studentIds=[];
+    function getName() {
+        try {
+            xhr = new XMLHttpRequest();
+        } catch (e) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        if (xhr == null)
+            alert("Ajax not supported");
+
+        //  if(document.getElementById("type").nodeValue=="id")
+        if(document.getElementById("name").value!=undefined)
+        var url = "autocomplete.jsp?name=" + document.getElementById("name").value + "&type=name";
+        //alert(document.getElementById("value").value);
+
+        xhr.onreadystatechange = handler;
+        xhr.open("GET", url, true);
+        xhr.send(null);
+
+    }
+    function handler() {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                //var response=eval("("+ xhr.responseText +")");//converting to an object ::JSON
+
+                //var text=document.createTextNode("Appeded :"+JSON.parse(xhr.response));
+                //loop over array
+                var names=document.getElementById("names");
+                var option;
+                    //removing all the previous elements
+                    while (names.firstChild)
+                        names.removeChild(names.firstChild);
+
+                var details = JSON.parse(xhr.responseText);
+                for (var i = 0; i < details.length-1; i++) {
+
+                    option=document.createElement('option');
+                    option.text=details[i].name;
+                    option.value=details[i].name;
+                    option.id=i;
+                    images[i]=details[i].image;
+                    studentIds[i]=details[i].id;
+                    //option.addEventListener("click",displayStudentData(id),false);
+                    option.onclick=displayStudentData(id);
+
+
+                    names.appendChild(option);
+                }
+                //div.appendChild(text);
+                //document.getElementById("cr").appendChild(div);
+            }
+        }
+    }
+    var id;
+    function displayStudentData(id){
+
+        document.getElementById("student_id").value=studentIds[id];
+        document.getElementById("student_image").src="\\images\\"+images[id]+".jpg";
+        return false;
+    }
+</script>
+
+
 </html>

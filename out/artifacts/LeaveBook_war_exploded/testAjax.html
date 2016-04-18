@@ -14,35 +14,34 @@
 </div>
 </body>
 <script>
-    var xhr=null;
-    function ajax(){
-        try{
-            xhr=new XMLHttpRequest();
-        }catch(e){
-            xhr=new ActiveXObject("Microsoft.XMLHTTP");
+    var xhr = null;
+    function ajax() {
+        try {
+            xhr = new XMLHttpRequest();
+        } catch (e) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
         }
-        if(xhr==null)
+        if (xhr == null)
             alert("Ajax not supported");
 
-      //  if(document.getElementById("type").nodeValue=="id")
-        var url="autocomplete.jsp?name="+document.getElementById("value").value+"&type="+document.getElementById("value1").value;
+        //  if(document.getElementById("type").nodeValue=="id")
+        var url = "autocomplete.jsp?name=" + document.getElementById("value").value + "&type=" + document.getElementById("value1").value;
         //alert(document.getElementById("value").value);
 
-        xhr.onreadystatechange=handler;
-        xhr.open("GET",url,true);
+        xhr.onreadystatechange = handler;
+        xhr.open("GET", url, true);
         xhr.send(null);
 
     }
-    function handler(){
-        if(xhr.readyState==4){
-            if(xhr.status==200){
+    function handler() {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
                 //var response=eval("("+ xhr.responseText +")");//converting to an object ::JSON
-                var div=document.createElement("div");
+                var div = document.createElement("div");
                 //var text=document.createTextNode("Appeded :"+JSON.parse(xhr.response));
                 //loop over array
-                var details=JSON.parse(xhr.responseText);
-                for(var i = 0; i < details.length; i++)
-                {
+                var details = JSON.parse(xhr.responseText);
+                for (var i = 0; i < details.length; i++) {
                     document.write(details[i].name);
                     document.write(details[i].email);
                     document.write(details[i].status);
