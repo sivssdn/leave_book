@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6874b977-3d29-4e37-844f-6599714e6778" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/LeaveBook_war_exploded/WEB-INF/classes/classes/DataBase.class" afterPath="$PROJECT_DIR$/out/artifacts/LeaveBook_war_exploded/WEB-INF/classes/classes/DataBase.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/LeaveBook_war_exploded/WEB-INF/classes/classes/Validate.class" afterPath="$PROJECT_DIR$/out/artifacts/LeaveBook_war_exploded/WEB-INF/classes/classes/Validate.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/LeaveBook/classes/DataBase.class" afterPath="$PROJECT_DIR$/out/production/LeaveBook/classes/DataBase.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/LeaveBook/classes/Validate.class" afterPath="$PROJECT_DIR$/out/production/LeaveBook/classes/Validate.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/LeaveBook_war_exploded/permission.html" afterPath="$PROJECT_DIR$/out/artifacts/LeaveBook_war_exploded/permission.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/LeaveBook_war_exploded/testAjax.html" afterPath="$PROJECT_DIR$/out/artifacts/LeaveBook_war_exploded/testAjax.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/autocomplete.jsp" afterPath="$PROJECT_DIR$/web/autocomplete.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/permission.html" afterPath="$PROJECT_DIR$/web/permission.html" />
     </list>
@@ -46,7 +40,7 @@
       <file leaf-file-name="permission.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/permission.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
+            <state relative-caret-position="765">
               <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
               <folding />
             </state>
@@ -56,8 +50,8 @@
       <file leaf-file-name="autocomplete.jsp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/autocomplete.jsp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="68" column="33" selection-start-line="68" selection-start-column="33" selection-end-line="68" selection-end-column="33" />
+            <state relative-caret-position="254">
+              <caret line="65" column="66" selection-start-line="65" selection-start-column="66" selection-end-line="65" selection-end-column="66" />
               <folding />
             </state>
           </provider>
@@ -66,8 +60,8 @@
       <file leaf-file-name="testAjax.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/testAjax.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="305">
-              <caret line="55" column="9" selection-start-line="15" selection-start-column="0" selection-end-line="55" selection-end-column="9" />
+            <state relative-caret-position="17">
+              <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -76,8 +70,8 @@
       <file leaf-file-name="permission.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/permission.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="9" column="28" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
+            <state relative-caret-position="153">
+              <caret line="9" column="145" selection-start-line="9" selection-start-column="145" selection-end-line="9" selection-end-column="145" />
               <folding />
             </state>
           </provider>
@@ -161,6 +155,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane />
       </pane>
@@ -210,8 +206,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -878,12 +872,13 @@
       <workItem from="1460899421862" duration="7286000" />
       <workItem from="1460964742374" duration="3586000" />
       <workItem from="1460982587693" duration="602000" />
-      <workItem from="1460984964022" duration="15122000" />
+      <workItem from="1460984964022" duration="15452000" />
+      <workItem from="1461051561690" duration="5518000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71241000" />
+    <option name="totallyTimeSpent" value="77089000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -1305,14 +1300,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/testAjax.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="305">
-          <caret line="55" column="9" selection-start-line="15" selection-start-column="0" selection-end-line="55" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web/index.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1323,7 +1310,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/permission.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
+        <state relative-caret-position="765">
           <caret line="45" column="24" selection-start-line="45" selection-start-column="24" selection-end-line="45" selection-end-column="24" />
           <folding />
         </state>
@@ -1331,16 +1318,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/autocomplete.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="68" column="33" selection-start-line="68" selection-start-column="33" selection-end-line="68" selection-end-column="33" />
+        <state relative-caret-position="254">
+          <caret line="65" column="66" selection-start-line="65" selection-start-column="66" selection-end-line="65" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/testAjax.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="33" column="0" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/permission.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="9" column="28" selection-start-line="9" selection-start-column="28" selection-end-line="9" selection-end-column="28" />
+        <state relative-caret-position="153">
+          <caret line="9" column="145" selection-start-line="9" selection-start-column="145" selection-end-line="9" selection-end-column="145" />
           <folding />
         </state>
       </provider>

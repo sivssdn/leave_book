@@ -28,14 +28,14 @@
         String studentId=request.getParameter("studentId");
         int flag=0;
         //preparing statement
-        if(name !=null && name.length()>0 && name.intern()!="") //if search by name is performed
+        if(name !=null && name.length()>0 && name.intern()!="") //if search by name is performed , loose matching with %name% string containing name in between will also be found
         {
             selectStatement="SELECT `student_id`,`name`,`primary_contact`,`secondary_contact`,`batch`,`email`,`hostel`,`room_number`,`image`,`permission`,`status` FROM master WHERE `name` LIKE '%"+name+"%';";
             flag=1;
         }
-        else if(studentId !=null && studentId.length()>0 && studentId.intern() != "") //if search by student id is performed
+        else if(studentId !=null && studentId.length()>0 && studentId.intern() != "") //if search by student id is performed, strict matching
         {
-            selectStatement = "SELECT `student_id`,`name`,`primary_contact`,`secondary_contact`,`batch`,`email`,`hostel`,`room_number`,`image`,`permission`,`status` FROM master WHERE `student_id` LIKE '%" + studentId + "%';";
+            selectStatement = "SELECT `student_id`,`name`,`primary_contact`,`secondary_contact`,`batch`,`email`,`hostel`,`room_number`,`image`,`permission`,`status` FROM master WHERE `student_id` LIKE '" + studentId + "';";
             flag=1;
         }
         if(flag==1) {
@@ -67,6 +67,9 @@
                         out.print("},");
                     }
                     out.print("{}]");
+
+
+                  //  out.print("}");
 
                 }
                 if (rows != null) {
