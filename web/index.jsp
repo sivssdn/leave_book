@@ -1,4 +1,4 @@
-<%--
+<%@ page import="classes.MakeExcel" %><%--
   Controller page
   All the pages are linked to this page and the request to each page is made by this page through get request.
   //dependencies- servelet.jar
@@ -33,6 +33,10 @@
       response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
       response.setHeader("Location","reports.html");
     }
+
+    MakeExcel make=new MakeExcel();
+    out.print(make.write());
+    out.print("<a href='trial.xlsx'>file</a>");
   %>
   </body>
 </html>

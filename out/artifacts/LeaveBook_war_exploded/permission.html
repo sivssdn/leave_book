@@ -7,8 +7,9 @@
 <body>
 
     <!--on input start suggesting, on keydown fill in the student id and image-->
-    Name : <input type="text" id="name" name="name" list="names" oninput="getName()" onkeydown="displayStudentData(event)"> <br>
-    <datalist id="names" onchange="clearNames()">
+
+    Name : <input type="text" id="name" name="name" list="names" oninput="getName()" onkeydown="displayStudentData(event)" autocomplete="off"> <br>
+    <datalist id="names">
     </datalist>
 
     <form method="post" action="permission.jsp">
@@ -78,12 +79,6 @@
                     names.appendChild(option);
                 }
 
-                //delete the values in datalist if the value in input field is equal to value in one of the child notes
-                var name=document.getElementById("name").value;
-                while(names.firstChild){
-                    if(names.firstChild.value==name)
-                            names.removeChild(names.firstChild);
-                }
 
                 //div.appendChild(text);
                 //document.getElementById("cr").appendChild(div);
@@ -99,6 +94,7 @@
             document.getElementById("student_image").src="\\images\\"+images[document.getElementById("name").value]+".jpg";
             document.getElementById("student_id").value=studentIds[document.getElementById("name").value];
         }
+        return false;
         /*
         document.getElementById("student_id").value=studentIds[id];
         document.getElementById("student_image").src="\\images\\"+images[id]+".jpg";

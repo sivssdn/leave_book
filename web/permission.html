@@ -7,7 +7,8 @@
 <body>
 
     <!--on input start suggesting, on keydown fill in the student id and image-->
-    Name : <input type="text" id="name" name="name" list="names" oninput="getName()" onkeydown="displayStudentData(event)" onchange="clearNames()"> <br>
+
+    Name : <input type="text" id="name" name="name" list="names" oninput="getName()" onkeydown="displayStudentData(event)" autocomplete="off"> <br>
     <datalist id="names">
     </datalist>
 
@@ -93,6 +94,7 @@
             document.getElementById("student_image").src="\\images\\"+images[document.getElementById("name").value]+".jpg";
             document.getElementById("student_id").value=studentIds[document.getElementById("name").value];
         }
+        return false;
         /*
         document.getElementById("student_id").value=studentIds[id];
         document.getElementById("student_image").src="\\images\\"+images[id]+".jpg";
