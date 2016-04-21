@@ -1,3 +1,5 @@
+
+<%@ page import="org.apache.poi.xssf.usermodel.XSSFWorkbook" %>
 <%@ page import="classes.MakeExcel" %><%--
   Controller page
   All the pages are linked to this page and the request to each page is made by this page through get request.
@@ -34,9 +36,19 @@
       response.setHeader("Location","reports.html");
     }
 
+
+
+/*
+    response.setContentType("application/vnd.ms-excel");
+    response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+
     MakeExcel make=new MakeExcel();
-    out.print(make.write());
+    XSSFWorkbook resultWorkbook=make.write();
+    resultWorkbook.write(response.getOutputStream());
+    //resultWorkbook.close();
+
     out.print("<a href='trial.xlsx'>file</a>");
+*/
   %>
   </body>
 </html>
