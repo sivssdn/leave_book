@@ -12,14 +12,14 @@
     <datalist id="names">
     </datalist>
 
-    <form method="post" action="permission.jsp">
+    <form method="post" action="controller.jsp">
 
     Student id : <input type="text" name="student_id" id="student_id"> <br>
     Date out : <input type="date" name="date_out" ><br>
     Time out : <input type="time" name="time_out"><br>
     Date in : <input type="date" name="date_in" ><br>
     Time in : <input type="time" name="time_in"><br>
-    <input type="submit" value="submit">
+    <input type="submit" name="permission" value="submit">
     </form>
 
     <img src="" id="student_image" height="200" width="100" >
@@ -40,7 +40,8 @@
 
         //  if(document.getElementById("type").nodeValue=="id")
         if(document.getElementById("name").value!=undefined)
-        var url = "autocomplete.jsp?name=" + document.getElementById("name").value + "&type=name";
+
+        var url = "controller.jsp?autocomplete=1&search_field=" + document.getElementById("name").value + "&search_type=name";
         //alert(document.getElementById("value").value);
 
         xhr.onreadystatechange = handler;
@@ -54,7 +55,7 @@
                 //var response=eval("("+ xhr.responseText +")");//converting to an object ::JSON
                  images=[];
                  studentIds=[];
-                //var text=document.createTextNode("Appeded :"+JSON.parse(xhr.response));
+                //var text=document.createTextNode("Appended :"+JSON.parse(xhr.response));
                     //loop over array
                 var names=document.getElementById("names");
                 var option;
@@ -63,7 +64,7 @@
                         names.removeChild(names.firstChild);
 
                 var details = JSON.parse(xhr.responseText);
-                for (var i = 0; i < details.length-1; i++) {
+                for (var i = 0; i < details.length; i++) {
 
                     option=document.createElement('option');
                     option.text=details[i].name;
