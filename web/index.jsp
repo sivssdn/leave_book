@@ -1,6 +1,5 @@
 
-<%@ page import="org.apache.poi.xssf.usermodel.XSSFWorkbook" %>
-<%@ page import="classes.MakeExcel" %><%--
+<%--
   Controller page
   All the pages are linked to this page and the request to each page is made by this page through get request.
   //dependencies- servelet.jar
@@ -14,7 +13,6 @@
 
   <%
       String openPage=request.getParameter("pageNumber");
-
     if(openPage==null)
     {
       //to be converted into new page

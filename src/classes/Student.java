@@ -17,6 +17,11 @@ public class Student {
     private String image;
     private int status;
 
+    //every student has permit to go out and come in and signs off at the gate, therefore object of class Permission and Gate
+    public Permission permit;
+    public Gate gateTimings;
+
+    //All in one setter function
     public void setStudentDetails(String studentId,String name,long primaryContact,long secondaryContact,int batch,String email,String hostel,int roomNumber,String hid,String image,String permission,int status){
         this.studentId=studentId;
         this.name=name;
@@ -31,7 +36,15 @@ public class Student {
         this.image=image;
         this.status=status;
     }
-
+    public void setPermit(Permission permit){
+        this.permit=permit;
+    }
+    public void setGateTimings(Gate gateTimings){
+        this.gateTimings=gateTimings;
+    }
+    /*
+    getter functions for class student
+     */
     public String getStudentId(){
         return this.studentId;
     }
@@ -67,5 +80,11 @@ public class Student {
     }
     public int getStatus(){
         return this.status;
+    }
+    public Permission getPermit(){
+        return this.permit;
+    }
+    public Gate getGateTimings(){
+        return this.gateTimings;
     }
 }

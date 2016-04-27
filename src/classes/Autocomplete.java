@@ -7,6 +7,15 @@ import java.util.List;
 
 public class Autocomplete {
 
+    /**
+     * Input: searchField - like name or the id that is required to searched
+     *        searchType - whether the searchFields is name or Id
+     * Output: Class Student object with parameters name, primary and secondary contact, batch, email, hostel, room number, image, permission
+     * and status fields belonging to the searchField
+     * output does not contain student's permission details and signing at gate details
+     *
+     * */
+
     public List<Student> getAllDetails(String searchField, String searchType) {
 
         List<Student> students = new LinkedList<>();
@@ -30,27 +39,12 @@ public class Autocomplete {
             DataBase check = new DataBase();
             ResultSet rows = null;
             if (check.success.intern() == "success") {
-                //connected to db
-
 
                 //applying select statement
                 rows = check.select(selectStatement);
-                //preparing JSON output
-                try {
-
-                    while (rows.next()) { //while records exists returned from select query
-                        Student studentFound=new Student();
-                        //studentFound.setStudentDetails(rows.getString("student_id"),rows.getString("name"),rows.getInt("primary_contact"),rows.getInt("secondary_contact"),rows.getInt("batch"),rows.getString("email"),rows.getString("hostel"),rows.getInt("room_number"),rows.getString("hid"),rows.getString("image"),rows.getString("permission"),rows.getInt("status"));
-                        //String studentId,String name,long primaryContact,long secondaryContact,int batch,String email,String hostel,int roomNumber,String hid,String image,String permission,int status
-                        studentFound.setStudentDetails(rows.getString("student_id"),rows.getString("name"),rows.getInt("primary_contact"),rows.getInt("secondary_contact"),rows.getInt("batch"),rows.getString("email"),rows.getString("hostel"),rows.getInt("room_number"),rows.getString("hid"),rows.getString("image"),rows.getString("permission"),rows.getInt("status"));
-                        students.add(studentFound);
-
-                    }
-
-                } catch (SQLException e) {
-                    //possibly null
-                    return students;
-                }
+                //binding student object fetched from database
+                Convert studentFormat=new Convert();
+                students=studentFormat.getStudentsFromResultset(rows); //converts sql rows to list<students>
             }
 
         }

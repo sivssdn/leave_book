@@ -1,9 +1,10 @@
-<%@ page import="classes.Autocomplete" %>
-<%@ page import="classes.Permission" %>
-<%@ page import="classes.Student" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="org.json.JSONObject" %>
 <%@ page import="java.util.List" %>
+<%@ page import="classes.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.sql.Date" %>
+<%@ page import="java.text.ParseException" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     /**
@@ -24,16 +25,13 @@
             */
 
     //to check which page made the request
-    String autoComplete=request.getParameter("autocomplete");
-    String permission = request.getParameter("permission");
-    String gate = request.getParameter("gate");
-
+    String requestAutoComplete=request.getParameter("autocomplete");
+    String requestPermission = request.getParameter("permission");
+    String requestGate = request.getParameter("gate");
+    String requestReport=request.getParameter("report");
 
     //request is made by permission page to grant permission correspomding to a student id
-    if(autoComplete!=null){
-
-
-
+    if(requestAutoComplete!=null){
 
 
         String searchField=request.getParameter("search_field");
@@ -44,48 +42,80 @@
         List<Student> studentsList=studentDetails.getAllDetails(searchField,searchType);
         //got result in List<Student>, store it in JSONObject array
 
-        JSONArray jsonStudentsList=new JSONArray();
+        //converting to list of students to json format
+        Convert studentListToJson=new Convert();
+        JSONArray jsonStudentsList=studentListToJson.getJsonArray(studentsList);
 
-        for(int i=0; i<studentsList.size(); i++)
-        {
-
-            Student singleStudent=studentsList.get(i);
-            JSONObject jsonStudent=new JSONObject();
-            jsonStudent.put("id",singleStudent.getStudentId());
-            jsonStudent.put("name",singleStudent.getName());
-            jsonStudent.put("primary",singleStudent.getPrimaryContact());
-            jsonStudent.put("secondary",singleStudent.getSecondaryContact());
-            jsonStudent.put("batch",singleStudent.getBatch());
-            jsonStudent.put("email",singleStudent.getEmail());
-            jsonStudent.put("hostel",singleStudent.getHostel());
-            jsonStudent.put("room",singleStudent.getRoomNumber());
-            jsonStudent.put("image",singleStudent.getImage());
-            jsonStudent.put("permission",singleStudent.getPermission());
-            jsonStudent.put("status",singleStudent.getStatus());
-
-            jsonStudentsList.put(jsonStudent);
-        }
-
-        //print the result
+        //print the result (json)
         out.print(jsonStudentsList);
     }
-    else if (permission != null) {
+    else if (requestPermission!= null) {
 
+        //reading request from browser
         String studentId = request.getParameter("student_id");
         String requestDateOut = request.getParameter("date_out");
         String requestTimeOut = request.getParameter("time_out");
         String requestDateIn = request.getParameter("date_in");
         String requestTimeIn = request.getParameter("time_in");
 
+        //converting the request to Date and time format
+        Convert dateTime=new Convert();
+        java.sql.Date dateOut=dateTime.toSqlDate(requestDateOut);
+        java.sql.Time timeOut=dateTime.toSqlTime(requestTimeOut);
+        java.sql.Date dateIn=dateTime.toSqlDate(requestDateIn);
+        java.sql.Time timeIn=dateTime.toSqlTime(requestTimeIn);
+
         String execution = "failed";
-        Permission student = new Permission( requestDateOut, requestTimeOut, requestDateIn, requestTimeIn);
+        Permission student = new Permission();
+        student.setPermissionDetails( dateOut, timeOut, dateIn, timeIn);
         execution = student.givePermission(studentId);
 
         out.print("{'execution':'" + execution + "'}");
         //will call Class permission and pass the parameters
-    } else if (gate != null) {
+    } else if (requestGate != null) {
 
         //will call class Gate
+    }else if(requestReport!=null) {
+
+        String requestedReport=request.getParameter("type");
+
+        //out.print("Report part ");
+        Report report = new Report();
+
+        /*TO BE VALID WHEN CONNECTED ==============================================
+        String startDateInput=request.getParameter("start_date");
+        String endDateInput=request.getParameter("end_date");
+        =========================================================================*/
+
+        String startDateInput = "2016-06-06";
+        String endDateInput = "2016-06-06";
+        //convert string to Date
+
+        Convert stringDates = new Convert();
+        java.sql.Date sqlStartDate = stringDates.toSqlDate(startDateInput);
+        java.sql.Date sqlEndDate = stringDates.toSqlDate(endDateInput);
+
+        //If the request is made to know about the late students
+        if(requestedReport.intern() == "late_students") {
+            List<Student> lateStudents = report.getLateStudentsList(sqlStartDate, sqlEndDate);
+            //converting list to JSON
+            Convert lateStudentsListToJson = new Convert();
+            JSONArray lateStudentsArray = lateStudentsListToJson.getJsonArray(lateStudents);
+
+            //print the json result
+            out.print(lateStudentsArray);
+        }
+        else if(requestedReport.intern() == "gate_log") //if the request is made to know about all the entries made at gate
+        {
+            List<Student> allGateEntries=report.gateRegisterEntries(sqlStartDate,sqlEndDate);
+            //converting list to JSON
+            Convert studentGateEntries=new Convert();
+            JSONArray studentGateEntriesArray=studentGateEntries.getJsonArray(allGateEntries);
+
+            //print the JSON
+            out.print(studentGateEntriesArray);
+        }
+
     }
 
 
