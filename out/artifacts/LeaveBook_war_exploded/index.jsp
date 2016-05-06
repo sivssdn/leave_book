@@ -17,7 +17,7 @@
     {
       //to be converted into new page
       out.print("<a href='index.jsp?pageNumber=1'>Warden</a><br>");
-      out.print("<a href='index.jsp?pageNumber=2'>Guard</a><br>");
+      out.print("<a href='index.jsp?pageNumber=2'>Gate</a><br>");
       out.print("<a href='index.jsp?pageNumber=3'>Reports</a><br>");
     }
     else if(openPage.intern()=="1"){
@@ -27,7 +27,7 @@
     }
     else if(openPage.intern()=="2"){
       response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-      response.setHeader("Location","guard.html");
+      response.setHeader("Location","gate.html");
     }
     else if(openPage.intern()=="3"){
       response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);

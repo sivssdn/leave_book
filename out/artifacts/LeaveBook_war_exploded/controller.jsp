@@ -1,10 +1,6 @@
-<%@ page import="org.json.JSONArray" %>
-<%@ page import="org.json.JSONObject" %>
-<%@ page import="java.util.List" %>
 <%@ page import="classes.*" %>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.sql.Date" %>
-<%@ page import="java.text.ParseException" %>
+<%@ page import="org.json.JSONArray" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     /**
@@ -43,7 +39,7 @@
         //got result in List<Student>, store it in JSONObject array
 
         //converting to list of students to json format
-        Convert studentListToJson=new Convert();
+        Converter studentListToJson=new Converter();
         JSONArray jsonStudentsList=studentListToJson.getJsonArray(studentsList);
 
         //print the result (json)
@@ -59,7 +55,7 @@
         String requestTimeIn = request.getParameter("time_in");
 
         //converting the request to Date and time format
-        Convert dateTime=new Convert();
+        Converter dateTime=new Converter();
         java.sql.Date dateOut=dateTime.toSqlDate(requestDateOut);
         java.sql.Time timeOut=dateTime.toSqlTime(requestTimeOut);
         java.sql.Date dateIn=dateTime.toSqlDate(requestDateIn);
@@ -73,7 +69,32 @@
         out.print("{'execution':'" + execution + "'}");
         //will call Class permission and pass the parameters
     } else if (requestGate != null) {
+        //----------------------GATE PART   -----------------------
+        String hid=request.getParameter("hid");
 
+        Autocomplete student=new Autocomplete();
+        List<Student> studentDetails=student.getAllDetails(hid,"hid");
+        Student studentWithDetails=new Student();
+
+        if(studentDetails.isEmpty())  //hid is not found in the table
+            out.print("HID not valid");
+        else {
+            studentWithDetails=studentDetails.get(0);
+            out.print(studentWithDetails.getName());
+
+            Gate studentAtGate = new Gate();
+
+            //instance of gate created, now check of CHECK OUT request was made or CHECK IN
+            String check=request.getParameter("check");
+            if(check.intern() == "out") //check out request was made :: student wants to exit from gate
+            {
+                String currentTime = studentAtGate.logStudentExit(studentWithDetails.getStudentId());
+                out.print("<br> " + currentTime);
+            }
+            else if(check.intern() == "in"){
+                out.print(" Students wants to enter : "+studentWithDetails.getName());
+            }
+        }
         //will call class Gate
     }else if(requestReport!=null) {
 
@@ -82,40 +103,58 @@
         //out.print("Report part ");
         Report report = new Report();
 
-        /*TO BE VALID WHEN CONNECTED ==============================================
         String startDateInput=request.getParameter("start_date");
         String endDateInput=request.getParameter("end_date");
-        =========================================================================*/
 
-        String startDateInput = "2016-06-06";
-        String endDateInput = "2016-06-06";
+        /*
+        String startDateInput = "";
+        String endDateInput = "2016-05-05";
         //convert string to Date
-
-        Convert stringDates = new Convert();
+        */
+        Converter stringDates = new Converter();
         java.sql.Date sqlStartDate = stringDates.toSqlDate(startDateInput);
         java.sql.Date sqlEndDate = stringDates.toSqlDate(endDateInput);
 
-        //If the request is made to know about the late students
-        if(requestedReport.intern() == "late_students") {
-            List<Student> lateStudents = report.getLateStudentsList(sqlStartDate, sqlEndDate);
-            //converting list to JSON
-            Convert lateStudentsListToJson = new Convert();
-            JSONArray lateStudentsArray = lateStudentsListToJson.getJsonArray(lateStudents);
+        Validate checkDates=new Validate();
+        if(checkDates.isDate(sqlStartDate) && checkDates.isDate(sqlEndDate)) {
 
-            //print the json result
-            out.print(lateStudentsArray);
+            //If the request is made to know about the late students
+            if (requestedReport.intern() == "late_students") {
+                List<Student> lateStudents = report.getLateStudentsList(sqlStartDate, sqlEndDate);
+                //converting list to JSON
+                Converter lateStudentsListToJson = new Converter();
+                JSONArray lateStudentsArray = lateStudentsListToJson.getJsonArray(lateStudents);
+
+                //print the json result
+                out.print(lateStudentsArray);
+            } else if (requestedReport.intern() == "gate_log") //if the request is made to know about all the entries made at gate
+            {
+                List<Student> allGateEntries = report.gateRegisterEntries(sqlStartDate, sqlEndDate);
+                //converting list to JSON
+                Converter studentGateEntries = new Converter();
+                JSONArray studentGateEntriesArray = studentGateEntries.getJsonArray(allGateEntries);
+
+            /* //WORKING-------------------------------------
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
+            XSSFWorkbook excelFile=studentGateEntries.getExcelWorkbook(allGateEntries);
+            try{
+                //FileOutputStream performWrite = new FileOutputStream(new File("C:\\Users\\admin\\IdeaProjects\\LeaveBook\\web\\reports\\"));
+                //excelFile.write(performWrite);
+                excelFile.write(response.getOutputStream());
+                //performWrite.close();
+                //performWrite.flush();
+            }catch(Exception e){
+                out.print(e.getMessage());
+            }
+            */
+
+                //print the JSON
+                out.print(studentGateEntriesArray);
+            }
+        }else{
+            out.print("{\"execution\" : \"failed\"}");
         }
-        else if(requestedReport.intern() == "gate_log") //if the request is made to know about all the entries made at gate
-        {
-            List<Student> allGateEntries=report.gateRegisterEntries(sqlStartDate,sqlEndDate);
-            //converting list to JSON
-            Convert studentGateEntries=new Convert();
-            JSONArray studentGateEntriesArray=studentGateEntries.getJsonArray(allGateEntries);
-
-            //print the JSON
-            out.print(studentGateEntriesArray);
-        }
-
     }
 
 

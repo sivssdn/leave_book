@@ -1,20 +1,20 @@
 package classes;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
  * This class contains functions to convert List<Student> to json and excel. Also contains function to create Array
  * */
-public class Convert {
+public class Converter {
     //convert to excel or to excel format
     /**
      * Input : List<Student> and binds it to JSON Object Array
@@ -61,11 +61,44 @@ public class Convert {
 
     }
 
+    /**
+     * Conerts list of students to excel format and returns the workbook object
+     * */
+    public XSSFWorkbook getExcelWorkbook(List<Student> listOfStudents){
+        XSSFWorkbook studentWorkbook=new XSSFWorkbook();
+        XSSFSheet sheet=studentWorkbook.createSheet("report");
 
+        //setting column names in excel
+        Row row=sheet.createRow(1);
+        Cell cell=row.createCell(0);
+        cell.setCellValue("Student Id");
+        cell=row.createCell(1);
+        cell.setCellValue("Name");
+        cell=row.createCell(2);
+        cell.setCellValue("Primary contact");
+        cell=row.createCell(3);
+        cell.setCellValue("Secondary contact");
+        cell=row.createCell(4);
+        cell.setCellValue("Batch");
+        cell=row.createCell(5);
+        cell.setCellValue("Email");
+        cell=row.createCell(6);
+        cell.setCellValue("Hostel");
+        cell=row.createCell(7);
+        cell.setCellValue("Room number");
+        cell=row.createCell(8);
+        cell.setCellValue("Permission");
+        cell=row.createCell(9);
+        cell.setCellValue("Status");
+
+
+        return studentWorkbook;
+    }
+/*
     /**
      * Converts Resultset rows to Student object except Permission and Gate object
-     * */
-    public List<Student> getStudentsFromResultset(ResultSet rows){
+     *
+    public List<Student> getStudentsFromResultsetbbbb(ResultSet rows){
         List<Student> studentList=new LinkedList<>();
 
         try {
@@ -86,7 +119,7 @@ public class Convert {
         return studentList;
     }
 
-
+*/
     //convert String to Java.sql.Date
     public java.sql.Date toSqlDate(String date){
         java.sql.Date sqlDate=null;

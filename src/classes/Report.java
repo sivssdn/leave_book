@@ -3,7 +3,7 @@ package classes;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -111,5 +111,30 @@ public class Report {
 
 
         return studentListAtGate;
+    }
+    /**
+     * Returns the list of all the students present on campus for the current date and time
+     * */
+    public List<Student> getOnCampusStudents(){
+        List<Student> onCampusStudents=new ArrayList<>();
+
+        DataBase details=new DataBase();
+        if(details.success.intern() == "success"){
+
+            String selectStatement="SELECT `student_id`,`name`,`primary_contact`,`secondary_contact`,`batch`,`email`,`hostel`,`room_number`,`hid`,`image`,`permission`,`status` FROM master WHERE `status`=1;";
+            ResultSet onCampusStudentDetails=details.select(selectStatement);
+
+            try {
+                if (onCampusStudentDetails.next()) {
+                    Student student=new Student();
+                    student.setStudentDetails(onCampusStudentDetails.getString("student_id"), onCampusStudentDetails.getString("name"), onCampusStudentDetails.getInt("primary_contact"), onCampusStudentDetails.getInt("secondary_contact"), onCampusStudentDetails.getInt("batch"), onCampusStudentDetails.getString("email"), onCampusStudentDetails.getString("hostel"), onCampusStudentDetails.getInt("room_number"), onCampusStudentDetails.getString("hid"), onCampusStudentDetails.getString("image"), onCampusStudentDetails.getString("permission"), onCampusStudentDetails.getInt("status"));
+
+                   onCampusStudents.add(student);
+                }
+            }catch(SQLException se){
+                return onCampusStudents;
+            }
+        }
+        return onCampusStudents;
     }
 }

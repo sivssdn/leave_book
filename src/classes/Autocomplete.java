@@ -2,6 +2,7 @@ package classes;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class Autocomplete {
 
     public List<Student> getAllDetails(String searchField, String searchType) {
 
-        List<Student> students = new LinkedList<>();
+        List<Student> students = new ArrayList<>();
 
 
         int flag = 0;
@@ -43,11 +44,25 @@ public class Autocomplete {
                 //applying select statement
                 rows = check.select(selectStatement);
                 //binding student object fetched from database
-                Convert studentFormat=new Convert();
-                students=studentFormat.getStudentsFromResultset(rows); //converts sql rows to list<students>
-            }
 
+
+                try {
+
+                    while (rows.next()) { //while records exists returned from select query
+                        Student studentFound=new Student();
+                        studentFound.setStudentDetails(rows.getString("student_id"),rows.getString("name"),rows.getInt("primary_contact"),rows.getInt("secondary_contact"),rows.getInt("batch"),rows.getString("email"),rows.getString("hostel"),rows.getInt("room_number"),rows.getString("hid"),rows.getString("image"),rows.getString("permission"),rows.getInt("status"));
+                        students.add(studentFound);
+
+                    }
+
+                } catch (SQLException e) {
+                    //possibly null
+                    return students;
+                }
+
+            }
         }
+
         return students;
     }
 }

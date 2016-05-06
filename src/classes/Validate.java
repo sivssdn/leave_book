@@ -3,7 +3,6 @@ package classes;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,11 +29,13 @@ public class Validate {
     }
 */
     public boolean isDate(java.sql.Date dateInput) {
+        if(dateInput == null)
+            return false;
+
         SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
         String date=dateFormat.format(dateInput);
         //SimpleDateFormat dateFormat=null;
-        if(date.intern() == "")
-            return false;
+
         try {
             //dateFormat=new SimpleDateFormat("yyyy-MM-dd");
             //java.util.Date date1=dateFormat.parse(date);
@@ -63,10 +64,11 @@ public class Validate {
     }
 */
     public boolean isTime(Time timeInput){
+        if(timeInput == null)
+            return false;
         SimpleDateFormat timeFormat=new SimpleDateFormat("HH:mm");
         String time=timeFormat.format(timeInput);
-        if(time.intern() == "")
-            return false;
+
         try{
             //timeFormat=new SimpleDateFormat("HH:mm");
             timeFormat.parse(time);

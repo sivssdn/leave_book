@@ -19,7 +19,7 @@ public class Permission {
     private Time timeOut;
     private Date dateIn;
     private Time timeIn;
-    //all in one settter function
+    //all in one setter function
     public void setPermissionDetails(Date dateOut, Time timeOut, Date dateIn, Time timeIn){
         this.dateOut=dateOut;
         this.timeOut=timeOut;
