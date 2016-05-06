@@ -88,11 +88,12 @@
             String check=request.getParameter("check");
             if(check.intern() == "out") //check out request was made :: student wants to exit from gate
             {
-                String currentTime = studentAtGate.logStudentExit(studentWithDetails.getStudentId());
-                out.print("<br> " + currentTime);
+                String message = studentAtGate.logStudentExit(studentWithDetails.getStudentId());
+                out.print("<br> " + message);
             }
             else if(check.intern() == "in"){
-                out.print(" Students wants to enter : "+studentWithDetails.getName());
+                String execution= studentAtGate.logStudentEntry(studentWithDetails.getStudentId());
+                out.print(" Students wants to enter : <br> execution : "+execution);
             }
         }
         //will call class Gate

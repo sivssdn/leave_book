@@ -107,7 +107,7 @@ public class Validate {
 
     //use to check if dateout is less than datein and both dates are greater than or equal to today's date
     public boolean validateDates(java.sql.Date startDateInput, java.sql.Date endDateInput) {
-        Date d=startDateInput;
+
         SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
         String startDate=dateFormat.format(startDateInput);
         String endDate=dateFormat.format(endDateInput);

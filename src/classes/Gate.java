@@ -1,8 +1,9 @@
 package classes;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Time;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 /**
@@ -42,7 +43,7 @@ public class Gate {
     }
 
     public String logStudentExit(String studentId){
-        String execution="failed";
+        String message="failed";
 
         Validate input=new Validate();
         //java.sql.date and time
@@ -62,14 +63,83 @@ public class Gate {
 
             //student id, date_out and time_out prepared, now insert into database
             DataBase gate=new DataBase();
-            if(gate.success.intern() == "success") {
-                String insertStatement = "INSERT INTO `gate` (`serial`, `student_id`, `date_out`, `time_out`, `date_in`, `time_in`,`late`) VALUES (NULL, '"+studentId+"', '"+sqlPresentDate+"', '"+sqlPresentTime+"', '0000-00-00', '00:00','0');";
-                execution=gate.insert(insertStatement);
+            if(gate.success.intern() == "success") { //connected to database
+                //check if student has permission
+                String selectStatement="SELECT * FROM `permission` WHERE `student_id`='"+studentId+"' ORDER BY `date_out` DESC LIMIT 5;";
+                ResultSet studentPermissions=gate.select(selectStatement);
+                boolean permissionFound=false;
+                try {
+
+                    while (studentPermissions.next()) {
+
+                        //permission for date out should lie before or be same as today's date and date_in in permissions should be greater than equal to today's date
+                        //comparison type (date & date) & (time)
+                        if((studentPermissions.getDate("date_out").compareTo(sqlPresentDate) <= 0 && studentPermissions.getDate("date_in").compareTo(sqlPresentDate) >= 0) && (studentPermissions.getTime("time_out").compareTo(sqlPresentTime) <= 0) ){
+                            permissionFound=true;
+                            String insertStatement = "INSERT INTO `gate` (`serial`, `student_id`, `date_out`, `time_out`, `date_in`, `time_in`,`late`) VALUES (NULL, '"+studentId+"', '"+sqlPresentDate+"', '"+sqlPresentTime+"', '0000-00-00', '00:00','0');";
+                            message=gate.insert(insertStatement);
+                            break;
+                        }
+                    }
+
+                    if(!permissionFound) //in case of permission not found
+                        message="no permission";
+
+                }catch(SQLException se){
+                    message="failed";
+                    return message;
+                }
+
             }
 
             gate.close();
         }
 
+        return message;
+    }
+
+    public String logStudentEntry(String studentId){
+        String execution="failed";
+
+        Validate input=new Validate();
+        //java.sql.date and time
+        if (input.isStudentId(studentId)) {
+
+            Converter dateAndTime = new Converter();
+
+            //convert present date to sql date format
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            java.util.Date utilPresentDate = new java.util.Date();
+            java.sql.Date sqlPresentDate = dateAndTime.toSqlDate(dateFormat.format(utilPresentDate));
+
+            //convert present time to sql time
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+            java.util.Date utilPresentTime = new java.util.Date();
+            java.sql.Time sqlPresentTime = dateAndTime.toSqlTime(timeFormat.format(utilPresentTime.getTime()));
+
+
+            //student id, date_out and time_out prepared, now insert into database
+            DataBase gate = new DataBase();
+            if (gate.success.intern() == "success"){
+
+                //check if the student had gone out, update date_in time_in fields
+                //get last entry where a particular student went out
+                String selectStatement="SELECT * FROM `gate` WHERE `student_id`='"+studentId+"' ORDER BY `date_out` DESC LIMIT 1;";
+                ResultSet studentLog=gate.select(selectStatement);
+                try {
+                    if (studentLog.next()) {
+                        //record found, update the date_in time_in  details (only update last entry)
+                        String updateStatement="UPDATE `gate` SET `date_in` = '"+sqlPresentDate+"' , `time_in` = '"+sqlPresentTime+"' WHERE `student_id`='"+studentId+"'  ORDER BY `date_out` DESC,`time_out` DESC LIMIT 1;";
+                        execution=gate.update(updateStatement);
+                    }
+                    else
+                        execution="Log does not exists";
+                }catch(SQLException se){
+                    execution="failed";
+                }
+            }
+            gate.close();
+        }
         return execution;
     }
 }
