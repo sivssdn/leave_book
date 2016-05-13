@@ -1,8 +1,6 @@
 package classes;
 
-/**
- * Created by admin on 23-04-2016.
- */
+
 public class Student {
     private String studentId;
     private String name;
@@ -20,6 +18,16 @@ public class Student {
     //every student has permit to go out and come in and signs off at the gate, therefore object of class Permission and Gate
     public Permission permit;
     public Gate gateTimings;
+
+    public Student(){
+        this.permit=null;
+        //set all default permission details to null
+       // permit.setPermissionDetails(null,null,null,null);
+
+        this.gateTimings=null;
+        //gateTimings.setSigningDetailsAtGate(this.studentId,null,null,null,null);
+        //set all default gate details to null
+    }
 
     //All in one setter function
     public void setStudentDetails(String studentId,String name,long primaryContact,long secondaryContact,int batch,String email,String hostel,int roomNumber,String hid,String image,String permission,int status){

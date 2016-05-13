@@ -2,9 +2,6 @@ package classes;
 
 import java.sql.*;
 
-/**
- * Created by admin on 15-04-2016.
- */
 
 public class DataBase {
 

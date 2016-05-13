@@ -2,27 +2,142 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Permit </title>
+
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" name="viewport">
+
+    <link href="material/css/base.min.css" rel="stylesheet">
+    <link href="material/css/project.min.css" rel="stylesheet">
+    <style>
+        .header{
+            box-shadow: 0 1px 10px rgba(0,0,0,0.5);
+        }
+        html,body{
+            height:100%;
+        }
+        .person{
+            display:block;
+            margin:auto;
+            width:40%;
+            margin-top:4%;
+        }
+        .name{
+            display:block;
+            margin:auto;
+            margin-top:4%;
+        }
+
+    </style>
+    <title>Warden </title>
 </head>
 <body>
 
-    <!--on input start suggesting, on keydown fill in the student id and image-->
+    <header class="header header-waterfall header-red "><br>
+        <span class="head">ASHOKA UNIVERSITY </span>
+    </header>
+    <br>
 
+
+    <div class="card person">
+        <div class="card-main">
+            <div class="card-header">
+                <!--For name-->
+                <div class="card-inner">
+
+                    <!--input name element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+                        <label class="floating-label" for="name"> Name </label>
+                        <input class="form-control" type="text"  id="name" name="name" list="names" oninput="getName()" onkeydown="displayStudentData(event)" autocomplete="off">
+                        <datalist id="names">
+                        </datalist>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card-img" style="background-color:#ffffff;">
+                <img src="material/images/samples/portrait.jpg" id="student_image">
+                <!--<p class="card-img-heading"> ... </p>-->
+            </div>
+
+            <!--form starting-->
+            <form method="get" action="controller.jsp" onsubmit="getStatus();return false;">
+                <div class="card-action">  </div>
+                <div class="card-inner">
+                    <!--input id element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+                        <label class="floating-label" for="name"> Student ID </label>
+                        <input class="form-control" type="text" name="student_id" id="student_id">
+                    </div><br>
+                </div>
+                <div class="card-inner">
+                    <!--input date out element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+                        <label class="floating-label" for="date_out" > Date out </label>
+                        <input class="form-control" name="date_out" id="date_out" type="text">
+                    </div><br>
+                </div>
+                <div class="card-inner">
+                    <!--input id element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+                        <label class="floating-label" for="time_out"> Time out </label>
+                        <input class="form-control" type="time" name="time_out" id="time_out">
+                    </div><br>
+                </div>
+                <div class="card-inner">
+                    <!--input date out element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+                        <label class="floating-label" for="date_in" > Date in </label>
+                        <input class="form-control" name="date_in" id="date_in" type="text">
+                    </div><br>
+                </div>
+                <div class="card-inner">
+                    <!--input id element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+                        <label class="floating-label" for="time_in"> Time in </label>
+                        <input class="form-control" type="time" name="time_in" id="time_in">
+                    </div><br>
+                </div>
+                <div class="card-inner">
+                    <!--input id element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+
+                        <output class="form-control" id="permission_status">
+                    </div><br>
+                </div>
+                <div class="card-action">
+                    <!--input id element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+
+
+                        <a class="btn waves-attach waves-effect" name="permission" value="submit"  onclick="getStatus();return false;" style="display:block;margin:auto;width:80%;">SUBMIT</a>
+                    </div><br>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--on input start suggesting, on keydown fill in the student id and image-->
+<!--
     Name : <input type="text" id="name" name="name" list="names" oninput="getName()" onkeydown="displayStudentData(event)" autocomplete="off"> <br>
     <datalist id="names">
     </datalist>
 
-    <form method="get" action="controller.jsp">
+    <form method="get" action="controller.jsp" onsubmit="getStatus();return false;">
 
     Student id : <input type="text" name="student_id" id="student_id"> <br>
-    Date out : <input type="date" name="date_out" ><br>
-    Time out : <input type="time" name="time_out"><br>
-    Date in : <input type="date" name="date_in" ><br>
-    Time in : <input type="time" name="time_in"><br>
+    Date out : <input type="date" name="date_out" id="date_out"><br>
+    Time out : <input type="time" name="time_out" id="time_out"><br>
+    Date in : <input type="date" name="date_in" id="date_in"><br>
+    Time in : <input type="time" name="time_in" id="time_in"><br>
     <input type="submit" name="permission" value="submit">
     </form>
 
     <img src="" id="student_image" height="200" width="100" >
+
+    <output id="permission_status"></output>
+-->
 </body>
 
 <script>
@@ -76,7 +191,7 @@
                    // document.getElementById("student_image").src="\\images\\"+details[i].image+".jpg";
                     //option.addEventListener("click",displayStudentData(id),false);
                     //option.onclick=displayStudentData(id);
-
+                    if(details[i] != "undefined")
                     names.appendChild(option);
                 }
 
@@ -110,7 +225,51 @@
         while(names.firstChild)
         names.removeChild(names.firstChild);
     }
+
+
+
+
+
+    //======for form submission========
+    var xhr2;
+    function getStatus(){
+        try {
+            xhr2 = new XMLHttpRequest();
+        } catch (e) {
+            xhr2 = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        if (xhr2 == null)
+            alert("Ajax not supported");
+
+        //  if(document.getElementById("type").nodeValue=="id")
+        //http://localhost:8080/controller.jsp?student_id=3310&date_out=&time_out=&date_in=&time_in=&permission=submit
+            var url = "controller.jsp?permission=1&student_id="+document.getElementById("student_id").value+"&date_out="+document.getElementById("date_out").value+"&time_out="+document.getElementById("time_out").value+"&date_in="+document.getElementById("date_in").value+"&time_in="+document.getElementById("time_in").value;
+        //alert(document.getElementById("value").value);
+
+        xhr.onreadystatechange = function(){
+
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+
+                    var status = JSON.parse(xhr.responseText);
+                    document.getElementById("permission_status").innerHTML=status[0].execution;
+                }
+                }
+
+        };
+        xhr.open("GET", url, true);
+        xhr.send(null);
+
+    }
 </script>
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="material/js/base.min.js"></script>
+<script src="material/js/project.min.js"></script>
+<script>
+    // for date picker
+    $( document ).ready(function() {
+        $('#date_out').pickdate({format: 'yyyy-mm-dd',formatSubmit: 'yyyy-mm-dd'});
+        $('#date_in').pickdate({format: 'yyyy-mm-dd',formatSubmit: 'yyyy-mm-dd'});
+    });
+</script>
 </html>

@@ -1,11 +1,15 @@
 package classes;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
 
 
 public class Report {
@@ -19,6 +23,7 @@ public class Report {
     public List<Student> getLateStudentsList(Date startDate, Date endDate) {
         List<Student> studentWithAllDetails = new LinkedList<>();
 
+
         //List<Gate> lateStudentsListAtGate=new LinkedList<>();
         DataBase details = new DataBase();
         if (details.success.intern() == "success") {
@@ -29,19 +34,23 @@ public class Report {
                 while (studentsList.next()) {
 
                     Student lateStudent = new Student();
-
+                    int permission=0;
 
                     //checking from table gate about late students
                     Gate lateStudentGateDetails = new Gate();
                     lateStudentGateDetails.setSigningDetailsAtGate(studentsList.getString("student_id"), studentsList.getDate("date_out"), studentsList.getTime("time_out"), studentsList.getDate("date_in"), studentsList.getTime("time_in"));
                     //lateStudentsListAtGate.add(lateStudent);
+                    System.out.println(studentsList.getDate("date_out"));
 
                     Permission lateStudentPermission = new Permission();
                     //getting permission details for the late students corresponding to the date they were late
                     String selectStatementForPermission = "SELECT * FROM permission WHERE `student_id`='" + studentsList.getString("student_id") + "' AND `date_out` >= '" + studentsList.getDate("date_out") + "' AND `date_in` >='" + studentsList.getDate("date_in") + "';";
                     ResultSet studentPermissionDetails = details.select(selectStatementForPermission); //will return only one or zero entry(one time permission)
                     if (studentPermissionDetails.next())
+                    {
                         lateStudentPermission.setPermissionDetails(studentPermissionDetails.getDate("date_out"), studentPermissionDetails.getTime("time_out"), studentPermissionDetails.getDate("date_in"), studentPermissionDetails.getTime("time_in"));
+                        permission=1;
+                    }
 
                     //getting details of the students about their name, contact, batch
                     String selectStatementForDetails = "SELECT `student_id`,`name`,`primary_contact`,`secondary_contact`,`batch`,`email`,`hostel`,`room_number`,`hid`,`image`,`permission`,`status` FROM master WHERE `student_id`='" + studentsList.getString("student_id") + "';";
@@ -51,6 +60,7 @@ public class Report {
                         lateStudent.setStudentDetails(studentDetails.getString("student_id"), studentDetails.getString("name"), studentDetails.getInt("primary_contact"), studentDetails.getInt("secondary_contact"), studentDetails.getInt("batch"), studentDetails.getString("email"), studentDetails.getString("hostel"), studentDetails.getInt("room_number"), studentDetails.getString("hid"), studentDetails.getString("image"), studentDetails.getString("permission"), studentDetails.getInt("status"));
 
                         //adding Permission and Gate object to a student
+                        if(permission == 1)
                         lateStudent.setPermit(lateStudentPermission);
                         lateStudent.setGateTimings(lateStudentGateDetails);
                     }
@@ -115,26 +125,27 @@ public class Report {
     /**
      * Returns the list of all the students present on campus for the current date and time
      * */
-    public List<Student> getOnCampusStudents(){
+    public List<Student> getAttendanceFromGate(int present){
         List<Student> onCampusStudents=new ArrayList<>();
 
         DataBase details=new DataBase();
         if(details.success.intern() == "success"){
 
-            String selectStatement="SELECT `student_id`,`name`,`primary_contact`,`secondary_contact`,`batch`,`email`,`hostel`,`room_number`,`hid`,`image`,`permission`,`status` FROM master WHERE `status`=1;";
+            String selectStatement="SELECT `student_id`,`name`,`primary_contact`,`secondary_contact`,`batch`,`email`,`hostel`,`room_number`,`hid`,`image`,`permission`,`status` FROM master WHERE `status`="+present+";";
             ResultSet onCampusStudentDetails=details.select(selectStatement);
 
             try {
-                if (onCampusStudentDetails.next()) {
+                while (onCampusStudentDetails.next()) {
                     Student student=new Student();
                     student.setStudentDetails(onCampusStudentDetails.getString("student_id"), onCampusStudentDetails.getString("name"), onCampusStudentDetails.getInt("primary_contact"), onCampusStudentDetails.getInt("secondary_contact"), onCampusStudentDetails.getInt("batch"), onCampusStudentDetails.getString("email"), onCampusStudentDetails.getString("hostel"), onCampusStudentDetails.getInt("room_number"), onCampusStudentDetails.getString("hid"), onCampusStudentDetails.getString("image"), onCampusStudentDetails.getString("permission"), onCampusStudentDetails.getInt("status"));
-
                    onCampusStudents.add(student);
                 }
             }catch(SQLException se){
                 return onCampusStudents;
             }
         }
+
+        details.close();
         return onCampusStudents;
     }
 }

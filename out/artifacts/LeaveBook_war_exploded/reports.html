@@ -3,22 +3,421 @@
 <head>
     <meta charset="UTF-8">
     <title>Reports</title>
+
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" name="viewport">
+
+    <link href="material/css/base.min.css" rel="stylesheet">
+    <link href="material/css/project.min.css" rel="stylesheet">
+    <style>
+
+        .header{
+            box-shadow: 0 1px 10px rgba(0,0,0,0.5);
+        }
+        html,body{
+            height:100%;
+        }
+
+        .report,.single_button_report{
+            display:inline-block;
+            width:20%;
+            margin-left:2%;
+            float:left;
+        }
+        .head{
+            font-size:1.4vw;
+            color:#ffffff;
+            padding-left:2vw;
+        }
+    </style>
 </head>
 <body>
-    Late students : <br>
-    <form action="controller.jsp" method="post">
-    Start Date : <input type="date" name="start_date"> &nbsp; &nbsp;
-    End Date : <input type="date" name="end_date"><br>
-        <input type="text" name="type" value="late_students" hidden>
-        <input type="submit" name="report">
-    </form>
-    <br>
-    Gate log : <br>
-    <form action="controller.jsp" method="post">
-        Start Date : <input type="date" name="start_date"> &nbsp; &nbsp;
-        End Date : <input type="date" name="end_date">
-        <input type="text" name="type" value="gate_log" hidden><br>
-        <input type="submit" name="report">
-    </form>
+
+<header class="header header-waterfall header-red "><br>
+    <span class="head">ASHOKA UNIVERSITY </span>
+</header>
+<br><br>
+<br>
+<div class="card report">
+    <div class="card-main">
+        <div class="card-header">
+            <!--For name-->
+            <div class="card-inner">
+                Late students
+
+            </div>
+        </div>
+
+        <div class="card-inner">
+            <!--input date out element-->
+            <div class="form-group form-group-label name" style="height:10%;">
+                <label class="floating-label" for="late_students_start_date" > From : </label>
+                <input class="form-control" name="start_date" id="late_students_start_date" type="text">
+            </div><br>
+        </div>
+        <div class="card-inner">
+            <!--input date out element-->
+            <div class="form-group form-group-label name" style="height:10%;">
+                <label class="floating-label" for="late_students_end_date" > To : </label>
+                <input class="form-control" name="end_date" id="late_students_end_date" type="text">
+            </div><br>
+        </div>
+
+        <div class="card-action">
+            <!--input id element-->
+
+                <br>
+                <a id="late_students" class="btn btn-brand waves-attach waves-effect" value="submit"  onclick="getReport(this);return false;" style="display:block;margin:auto;width:80%;">SUBMIT</a>
+                <!--submitting form-->
+                <br>
+        </div>
+        <div class="card-action">
+            <!--input id element-->
+
+                <br>
+                <a class="btn btn-brand waves-attach waves-effect" id="late_students_excel_download" value="Download excel" onclick="downloadExcel(this)" style="display:block;margin:auto;width:80%;">Download excel</a>
+                <!--submitting form-->
+                <br>
+        </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="card report">
+    <div class="card-main">
+        <div class="card-header">
+            <!--For name-->
+            <div class="card-inner">
+                Gate log
+
+            </div>
+        </div>
+
+        <div class="card-inner">
+            <!--input date out element-->
+            <div class="form-group form-group-label name" style="height:10%;">
+                <label class="floating-label" for="gate_start_date" > From : </label>
+                <input class="form-control" name="start_date" id="gate_start_date" type="text">
+            </div><br>
+        </div>
+        <div class="card-inner">
+            <!--input date out element-->
+            <div class="form-group form-group-label name" style="height:10%;">
+                <label class="floating-label" for="gate_end_date" > To : </label>
+                <input class="form-control" name="end_date" id="gate_end_date" type="text">
+            </div><br>
+        </div>
+
+        <div class="card-action">
+            <!--input id element-->
+                <br>
+                <a id="gate" class="btn btn-brand waves-attach waves-effect" value="submit"  onclick="getReport(this);return false;" style="display:block;margin:auto;width:80%;">SUBMIT</a>
+                <!--submitting form-->
+                <br>
+        </div>
+        <div class="card-action">
+            <!--input id element-->
+
+                <br>
+                <a class="btn btn-brand waves-attach waves-effect" id="gate_excel_download" value="Download excel" onclick="downloadExcel(this)" style="display:block;margin:auto;width:80%;">Download excel</a>
+                <!--submitting form-->
+            <br>
+        </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="card single_button_report">
+    <div class="card-main">
+        <div class="card-inner">
+            <p class="card-heading">People on campus</p>
+        </div>
+        <div class="card-action">
+
+                <br>
+                <a class="btn btn-brand waves-attach waves-effect" id="on_campus" onclick="getReport(this);return false;" style="display:block;margin:auto;width:80%;">Show students list</a>
+                <br>
+            </div>
+        </div>
+        <div class="card-action">
+
+                <br>
+                <a class="btn btn-brand waves-attach waves-effect" id="on_campus_excel_download" value="Download excel" onclick="downloadExcel(this)" style="display:block;margin:auto;width:80%;">Download students list</a>
+                <br>
+
+        </div>
+    </div>
+</div>
+<div class="card single_button_report">
+    <div class="card-main">
+        <div class="card-inner">
+            <p class="card-heading">People off campus</p>
+        </div>
+        <div class="card-action">
+                <br>
+                <a class="btn btn-brand waves-attach waves-effect" id="off_campus" onclick="getReport(this);return false;" style="display:block;margin:auto;width:80%;">Show students list</a>
+                <br>
+
+        </div>
+        <div class="card-action">
+
+                <br>
+                <a class="btn btn-brand waves-attach waves-effect" id="off_campus_excel_download" value="Download excel" onclick="downloadExcel(this)" style="display:block;margin:auto;width:80%;">Download students list</a>
+                <br>
+
+        </div>
+    </div>
+</div>
+<br><br><br><br>
+
+<div id="late_students_data" style="display: block;clear: both;">
+</div>
+<br>
+<div id="gate_data" style="display: block;clear: both;">
+</div>
+<br>
+<div id="on_campus_students_list" style="display: block;clear: both;">
+    <div class="table-responsive" style="display:block;clear:both;">
+        <table class="table" display="none">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+                <tr>
+                    <th>Id</th>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                </tr>
+                <tr>
+                    <th>Room</th>
+                </tr>
+                <tr>
+                    <th>Batch</th>
+                </tr>
+            </thead>
+            <tbody id="late_students_tbody">
+
+
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+<div id="off_campus_students_list" style="display: block;clear: both;">
+</div>
+<br>
+
+<!--
+Late students : <br>
+<form action="controller.jsp" method="post" id="late_students" onsubmit="getReport(this);return false;">
+    Start Date : <input type="date" name="start_date" id="late_students_start_date"> &nbsp; &nbsp;
+    End Date : <input type="date" name="end_date" id="late_students_end_date"><br>
+
+
+    <input type="submit" name="report" value="show report">
+    <input type="button" id="late_students_excel_download" value="Download excel" onclick="downloadExcel(this)">
+</form>
+<div id="late_students_data">
+</div>
+<br>
+
+Gate log : <br>
+<form action="controller.jsp" method="post" id="gate" onsubmit="getReport(this);return false;">
+    Start Date : <input type="date" name="start_date" id="gate_start_date"> &nbsp; &nbsp;
+    End Date : <input type="date" name="end_date" id="gate_end_date">
+    <!--<input type="text" name="type" value="gate_log" id="gate_type" hidden>-->
+   <!-- <br>
+    <input type="submit" name="report">
+    <input type="button" id="gate_excel_download" value="Download excel" onclick="downloadExcel(this)">
+</form>
+<div id="gate_data">
+</div>
+<br>
+
+People on campus : <br>
+<form method="post" action="controller.jsp" id="on_campus" onsubmit="getReport(this);return false;">
+    <!--<input type="text" name="type" value="students_present"  hidden>--><br>
+    <!--<input type="submit" name="report" value="show students present">
+    <input type="button" id="on_campus_excel_download" value="Download excel" onclick="downloadExcel(this)">
+</form><br>
+<div id="on_campus_students_list">
+</div>
+<br>
+
+People absent from campus : <br>
+<form method="post" action="controller.jsp" id="off_campus" onsubmit="getReport(this);return false;">
+    <!--<input type="text" name="type" value="students_absent" hidden>--><br>
+    <!--<input type="submit" name="report" value="Get people absent">
+    <input type="button" id="off_campus_excel_download" value="Download excel" onclick="downloadExcel(this)">
+</form><br>
+<div id="off_campus_students_list">
+</div>
+-->
 </body>
+
+<script>
+    var form;
+    function getReport(form) {
+        try {
+            xhr = new XMLHttpRequest();
+        } catch (e) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        if (xhr == null)
+            alert("Ajax not supported");
+
+
+            if(form.id == "late_students")
+            var url = "controller.jsp?report=1&type=late_students&format=json&start_date="+document.getElementById(form.id+"_start_date").value+"&end_date="+document.getElementById(form.id+"_end_date").value;
+            else if (form.id == "gate")
+                var url = "controller.jsp?report=1&type=gate_log&format=json&start_date="+document.getElementById(form.id+"_start_date").value+"&end_date="+document.getElementById(form.id+"_end_date").value;
+            else if(form.id == "on_campus")
+                    var url="controller.jsp?report=1&format=json&type=students_present";
+            else if(form.id == "off_campus")
+                    var url="controller.jsp?report=1&format=json&type=students_absent";
+        //alert(document.getElementById("value").value);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+
+                //selecting where to append data in the page
+
+                if(form.id == "late_students")
+                    var data = document.getElementById("late_students_data"); //div above present as lat_student_data
+                else if (form.id =="gate")
+                    var data = document.getElementById("gate_data"); //div above present as gate_data
+                else if(form.id == "on_campus")
+                    var data = document.getElementById("on_campus_students_list");
+                else if(form.id == "off_campus")
+                    var data = document.getElementById("off_campus_students_list");
+
+                var p;
+                //removing all the previous elements
+                while (data.firstChild)
+                    data.removeChild(data.firstChild);
+
+                var details = JSON.parse(xhr.responseText);
+                for (var i = 0; i < details.length; i++) {
+
+                    p = document.createElement('p');
+
+                    p.innerHTML = details[i].name;
+                    p.innerHTML = p.innerHTML+ " id : " +details[i].id;
+                    p.innerHTML = p.innerHTML+ " email : " +details[i].email;
+                    p.innerHTML = p.innerHTML+ " room : " +details[i].room;
+                    p.innerHTML = p.innerHTML+ " batch : " +details[i].batch;
+
+                    if(form.id == "late_students" || form.id == "gate") {
+                        p.innerHTML = p.innerHTML + "  actual date out : " + details[i].actual_date_out;
+                        p.innerHTML = p.innerHTML + "  actual time out : " + details[i].actual_time_out;
+                        p.innerHTML = p.innerHTML + "  actual date in : " + details[i].actual_date_in;
+                        p.innerHTML = p.innerHTML + "  actual time in : " + details[i].actual_time_in + "<br><br>";
+                    }
+                    // document.getElementById("student_id").value=details[i].id;
+                    // document.getElementById("student_image").src="\\images\\"+details[i].image+".jpg";
+                    //option.addEventListener("click",displayStudentData(id),false);
+                    //option.onclick=displayStudentData(id);
+                    if(details[i].name != "undefined")
+                    data.appendChild(p);
+                }
+
+
+            }
+
+        };
+        xhr.open("GET", url, true);
+        xhr.send(null);
+
+        return false;
+    }
+/*
+    var button;
+    //for downloading report
+    function getReportExcel(button) {
+        try {
+            xhr = new XMLHttpRequest();
+        } catch (e) {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        if (xhr == null)
+            alert("Ajax not supported");
+
+
+        if(button.id == "late_students_report_download")
+            var url = "controller.jsp?report=1&type=late_students&excel=1&start_date="+document.getElementById(form.id+"_start_date").value+"&end_date="+document.getElementById(form.id+"_end_date").value;
+        else if (button.id == "gate_report_download")
+            var url = "controller.jsp?report=1&type=gate_log&excel=1&start_date="+document.getElementById(form.id+"_start_date").value+"&end_date="+document.getElementById(form.id+"_end_date").value;
+        else if(button.id == "students_present_report_download")
+            var url="controller.jsp?report=1&excel=1&type=students_present";
+        else if(button.id == "students_absent_report_download")
+            var url="controller.jsp?report=1&excel=1&type=students_absent";
+        //alert(document.getElementById("value").value);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+
+                //selecting where to append data in the page
+
+                }
+
+
+            }
+
+        }
+        xhr.open("GET", url, true);
+        xhr.send(null);
+
+
+    }
+    */
+    var element;
+    function downloadExcel(element){
+        if(element.id == "late_students_excel_download")
+        {
+            //document.getElementById("late_students").submit();
+            var form=document.createElement("form");
+            form.setAttribute("method","post");
+            //http://localhost:8080/controller.jsp?report=1&type=late_students&start_date=2015-03-05&end_date=2017-02-25
+            form.setAttribute("action","controller.jsp?report=1&format=excel&type=late_students&start_date="+document.getElementById("late_students_start_date").value+"&end_date="+document.getElementById("late_students_end_date").value);
+            form.submit();
+        }
+        else if(element.id == "gate_excel_download"){
+            var form=document.createElement("form");
+            form.setAttribute("method","post");
+            //http://localhost:8080/controller.jsp?report=1&type=gate_log&start_date=2015-10-13&end_date=2017-03-17
+            form.setAttribute("action","controller.jsp?report=1&type=gate_log&format=excel&start_date="+document.getElementById("gate_start_date").value+"&end_date="+document.getElementById("gate_end_date").value);
+            form.submit();
+
+        }
+        else if(element.id == "on_campus_excel_download"){
+            //http://localhost:8080/controller.jsp?report=1&format=json&type=students_absent
+            var form=document.createElement("form");
+            form.setAttribute("method","post");
+            form.setAttribute("action","controller.jsp?report=1&format=excel&type=students_present");
+            form.submit();
+        }
+        else if(element.id == "off_campus_excel_download"){
+            var form=document.createElement("form");
+            form.setAttribute("method","post");
+            form.setAttribute("action","controller.jsp?report=1&format=excel&type=students_present");
+            form.submit();
+        }
+    }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="material/js/base.min.js"></script>
+<script src="material/js/project.min.js"></script>
+<script>
+    // for date picker
+    $( document ).ready(function() {
+        $('#late_students_start_date').pickdate({format: 'yyyy-mm-dd',formatSubmit: 'yyyy-mm-dd'});
+        $('#late_students_end_date').pickdate({format: 'yyyy-mm-dd',formatSubmit: 'yyyy-mm-dd'});
+        $('#gate_start_date').pickdate({format: 'yyyy-mm-dd',formatSubmit: 'yyyy-mm-dd'});
+        $('#gate_end_date').pickdate({format: 'yyyy-mm-dd',formatSubmit: 'yyyy-mm-dd'});
+    });
+</script>
 </html>

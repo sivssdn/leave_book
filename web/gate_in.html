@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>Gate</title>
+            <meta content="IE=edge" http-equiv="X-UA-Compatible">
+            <meta content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width" name="viewport">
+
+            <link href="material/css/base.min.css" rel="stylesheet">
+            <link href="material/css/project.min.css" rel="stylesheet">
+            <style>
+                .header{
+                    box-shadow: 0 1px 10px rgba(0,0,0,0.5);
+                }
+                html,body{
+                    height:100%;
+                }
+
+                .head{
+                    font-size:1.4vw;
+                    color:#ffffff;
+                    padding-left:2vw;
+                }
+                .person{
+                    display:block;
+                    margin:auto;
+                    width:40%;
+                    margin-top:4%;
+                }
+                .name{
+                    display:block;
+                    margin:auto;
+                    margin-top:4%;
+                }
+
+            </style>
+        </head>
+<body>
+<header class="header header-waterfall header-red "><br>
+ <a href="index.jsp" style="color:#ffffff;">   <span class="head">ASHOKA UNIVERSITY CHECK IN</span></a>
+</header>
+<br>
+
+
+<br><br><br>
+<a href="gate.html" class="btn btn-brand waves-attach waves-effect" style="display:block;margin:auto;width:20%;height:8%;font-size:1.4vw;float:right;">CHECK OUT</a>
+
+<div class="card person">
+    <div class="card-main">
+        <div class="card-header">
+            <!--For name-->
+            <div class="card-inner">
+
+                <form onsubmit="checkOnGate(this);return false;">
+                    <!--input hid element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+                        <label class="floating-label" for="hid_in"> HID </label>
+                        <input class="form-control" type="text" id="hid_in" name="hid_in" placeholder="HID" oninput="getDetails(this)">
+                        <input type="text" id="hid_ini" name="hid" placeholder="HID" hidden>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card-img" style="background-color:#ffffff;">
+        <img src="material/images/samples/portrait.jpg" id="hid_in_image">
+        <!--<p class="card-img-heading"> ... </p>-->
+    </div>
+
+    <!--form starting-->
+    <div class="card-action">  </div>
+    <div class="card-inner">
+        <!--input id element-->
+        <div class="form-group form-group-label name" style="height:10%;">
+            <output class="form-control" type="text" id="hid_in_name">NAME</output>
+        </div><br>
+    </div>
+
+    <div class="card-inner">
+        <!--input id element-->
+        <div class="form-group form-group-label name" style="height:10%;">
+            <output class="form-control" id="hid_in_batch">BATCH</output>
+        </div><br>
+    </div>
+    <div class="card-inner">
+        <!--input date out element-->
+        <div class="form-group form-group-label name" style="height:10%;">
+            <output class="form-control" id="hid_in_roomnumber">ROOM NUMBER</output>
+        </div><br>
+    </div>
+    <div class="card-inner">
+        <!--input date out element-->
+        <div class="form-group form-group-label name" style="height:10%;">
+            <output class="form-control" id="check_in_output"></output>
+        </div><br>
+    </div>
+    <div class="card-action">
+        <!--input id element-->
+        <div class="form-group form-group-label name" style="height:10%;">
+            <a class="btn waves-attach waves-effect" name="permission" value="submit"  id="check_in" onclick="checkOnGate(this);return false;" style="display:block;margin:auto;width:80%;">SUBMIT</a>
+            <!--submitting form-->
+        </div><br>
+    </div>
+    </form>
+</div>
+</div>
+
+<!--
+<h3>Check in</h3>
+<form id="check_in" onsubmit="checkOnGate(this);return false;">
+    <input type="text" id="hid_in" name="hid" placeholder="HID" oninput="getDetails(this)">
+    <input type="text" name="check" value="in" hidden>
+    <input type="submit" name="gate" value="submit">
+</form>
+<output id="check_in_output"></output><br>
+<input type="text" id="hid_in_name">
+<img src="" id="hid_in_image" height="200" width="100" >
+<input type="text" id="hid_in_batch" >
+<input type="text" id="hid_in_roomnumber" >
+-->
+</body>
+
+
+<script>
+    var hid;
+
+    function getDetails(hid){
+        if(hid.value.length==16)//read either from HID textfield(uid) or Manual textfield(muid)
+        {
+            var uid=hid.value;
+            //-----NECESSARY TO CLEAR THE INPUT FIELD
+            //document.getElementById(hid.id).value='';
+            try{
+                xhr=new XMLHttpRequest();
+            }
+            catch(e){
+                xhr=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            if(xhr==null)
+                alert("Unable to run program. Connection Issue (Ajax request)");
+
+            var url="controller.jsp?autocomplete=1&search_field=" + uid + "&search_type=hid";
+            xhr.onreadystatechange= function (){
+                if(xhr.readyState == 4 && xhr.status == 200){
+                    var response=JSON.parse(xhr.responseText);
+
+
+
+                    document.getElementById(hid.id+"_image").src="\\images\\"+response[0].image+".jpg";
+                    document.getElementById(hid.id+"_name").value=response[0].name;
+                    document.getElementById(hid.id+"_batch").value=response[0].batch;
+                    document.getElementById(hid.id+"_roomnumber").value=response[0].room;
+
+                }
+            }
+            xhr.open("GET",url,true);
+            xhr.send(null);
+
+            document.getElementById("hid_ini").value=document.getElementById("hid_in").value;
+            document.getElementById("hid_in").value="";
+
+            return false;
+        }
+    }
+
+    var form;
+    function checkOnGate(form){
+
+        //-----NECESSARY TO CLEAR THE INPUT FIELD
+        //document.getElementById(hid.id).value='';
+        try{
+            xhr=new XMLHttpRequest();
+        }
+        catch(e){
+            xhr=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        if(xhr==null)
+            alert("Unable to run program. Connection Issue (Ajax request)");
+        if(form.id == "check_out")
+            var url="controller.jsp?gate=1&check=out&hid="+document.getElementById("hid").value;
+        else
+            var url="controller.jsp?gate=1&check=in&hid="+document.getElementById("hid_ini").value;
+
+        xhr.onreadystatechange= function (){
+            if(xhr.readyState == 4 && xhr.status == 200){
+                var response=JSON.parse(xhr.responseText);
+
+                document.getElementById(form.id+"_output").value=response[0].execution;
+
+            }
+        }
+        xhr.open("GET",url,true);
+        xhr.send(null);
+
+    }
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="material/js/base.min.js"></script>
+<script src="material/js/project.min.js"></script>
+
+</html>

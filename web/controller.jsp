@@ -1,6 +1,10 @@
 <%@ page import="classes.*" %>
 <%@ page import="org.json.JSONArray" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.LinkedList" %>
+<%@ page import="org.apache.poi.xssf.usermodel.XSSFWorkbook" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     /**
@@ -47,26 +51,32 @@
     }
     else if (requestPermission!= null) {
 
+
+
         //reading request from browser
         String studentId = request.getParameter("student_id");
         String requestDateOut = request.getParameter("date_out");
         String requestTimeOut = request.getParameter("time_out");
         String requestDateIn = request.getParameter("date_in");
         String requestTimeIn = request.getParameter("time_in");
-
-        //converting the request to Date and time format
-        Converter dateTime=new Converter();
-        java.sql.Date dateOut=dateTime.toSqlDate(requestDateOut);
-        java.sql.Time timeOut=dateTime.toSqlTime(requestTimeOut);
-        java.sql.Date dateIn=dateTime.toSqlDate(requestDateIn);
-        java.sql.Time timeIn=dateTime.toSqlTime(requestTimeIn);
-
         String execution = "failed";
-        Permission student = new Permission();
-        student.setPermissionDetails( dateOut, timeOut, dateIn, timeIn);
-        execution = student.givePermission(studentId);
+            if(requestDateOut.intern() == "" || requestDateIn == "" || requestDateOut == null)
+                out.print("[{\"execution\":\"" + execution + "\"}]");
+            else {
+                //converting the request to Date and time format
+                Converter dateTime = new Converter();
+                java.sql.Date dateOut = dateTime.toSqlDate(requestDateOut);
+                java.sql.Time timeOut = dateTime.toSqlTime(requestTimeOut);
+                java.sql.Date dateIn = dateTime.toSqlDate(requestDateIn);
+                java.sql.Time timeIn = dateTime.toSqlTime(requestTimeIn);
 
-        out.print("{'execution':'" + execution + "'}");
+
+                Permission student = new Permission();
+                student.setPermissionDetails(dateOut, timeOut, dateIn, timeIn);
+                execution = student.givePermission(studentId);
+
+                out.print("[{\"execution\":\"" + execution + "\"}]");
+            }
         //will call Class permission and pass the parameters
     } else if (requestGate != null) {
         //----------------------GATE PART   -----------------------
@@ -80,7 +90,7 @@
             out.print("HID not valid");
         else {
             studentWithDetails=studentDetails.get(0);
-            out.print(studentWithDetails.getName());
+            //out.print(studentWithDetails.getName());
 
             Gate studentAtGate = new Gate();
 
@@ -89,72 +99,136 @@
             if(check.intern() == "out") //check out request was made :: student wants to exit from gate
             {
                 String message = studentAtGate.logStudentExit(studentWithDetails.getStudentId());
-                out.print("<br> " + message);
+                out.print("[{ \"execution\" : \" " + message+" \" }]");
             }
             else if(check.intern() == "in"){
                 String execution= studentAtGate.logStudentEntry(studentWithDetails.getStudentId());
-                out.print(" Students wants to enter : <br> execution : "+execution);
+                out.print(" [{ \"execution\" : \""+execution+"\" }]");
             }
         }
         //will call class Gate
     }else if(requestReport!=null) {
 
-        String requestedReport=request.getParameter("type");
-
+        String requestedReport=request.getParameter("type"); //type of report, late students or gate log...
+        String format = request.getParameter("format"); //format =json, excel
         //out.print("Report part ");
         Report report = new Report();
 
-        String startDateInput=request.getParameter("start_date");
-        String endDateInput=request.getParameter("end_date");
+        if(requestedReport.intern() == "late_students" || requestedReport.intern() == "gate_log") {
+            String startDateInput = request.getParameter("start_date");
+            String endDateInput = request.getParameter("end_date");
 
-        /*
-        String startDateInput = "";
-        String endDateInput = "2016-05-05";
-        //convert string to Date
-        */
-        Converter stringDates = new Converter();
-        java.sql.Date sqlStartDate = stringDates.toSqlDate(startDateInput);
-        java.sql.Date sqlEndDate = stringDates.toSqlDate(endDateInput);
 
-        Validate checkDates=new Validate();
-        if(checkDates.isDate(sqlStartDate) && checkDates.isDate(sqlEndDate)) {
+            Converter stringDates = new Converter();
+            java.sql.Date sqlStartDate = stringDates.toSqlDate(startDateInput);
+            java.sql.Date sqlEndDate = stringDates.toSqlDate(endDateInput);
 
-            //If the request is made to know about the late students
-            if (requestedReport.intern() == "late_students") {
-                List<Student> lateStudents = report.getLateStudentsList(sqlStartDate, sqlEndDate);
-                //converting list to JSON
-                Converter lateStudentsListToJson = new Converter();
-                JSONArray lateStudentsArray = lateStudentsListToJson.getJsonArray(lateStudents);
+            Validate checkDates = new Validate();
+            if (checkDates.isDate(sqlStartDate) && checkDates.isDate(sqlEndDate)) {
 
-                //print the json result
-                out.print(lateStudentsArray);
-            } else if (requestedReport.intern() == "gate_log") //if the request is made to know about all the entries made at gate
-            {
-                List<Student> allGateEntries = report.gateRegisterEntries(sqlStartDate, sqlEndDate);
-                //converting list to JSON
+
+                //If the request is made to know about the late students
+                if (requestedReport.intern() == "late_students") {
+
+                    List<Student> lateStudents = report.getLateStudentsList(sqlStartDate, sqlEndDate);
+
+
+                        if(format != null && format.intern() == "json") {
+                            //converting list to JSON
+                            Converter lateStudentsListToJson = new Converter();
+                            JSONArray lateStudentsArray = lateStudentsListToJson.getJsonArray(lateStudents);
+
+                            //print the json result
+                            out.print(lateStudentsArray);
+                        }
+                        else if(format != null && format.intern() == "excel"){
+                            //user requested for excel report
+                            response.setContentType("application/vnd.ms-excel");
+                            response.setHeader("Content-Disposition", "attachment; filename=lateStudents"+sqlStartDate+".xlsx");
+
+                            Converter lateStudentsListToExcel = new Converter();
+                            XSSFWorkbook excelFile=lateStudentsListToExcel.getExcelWorkbook(lateStudents);
+                            try{
+                                excelFile.write(response.getOutputStream());
+                            } catch (Exception e){
+                                out.print("[{\"execution\" : \" failed \"}]");
+                            }
+                        }
+
+                /*    }else{
+
+                        //user requested for excel report
+                        response.setContentType("application/vnd.ms-excel");
+                        response.setHeader("Content-Disposition", "attachment; filename=lateStudents"+sqlStartDate+".xls");
+
+                        Converter lateStudentsListToExcel = new Converter();
+                        XSSFWorkbook excelFile=lateStudentsListToExcel.getExcelWorkbook(lateStudents);
+                        try{
+                            excelFile.write(response.getOutputStream());
+                        } catch (Exception e){
+                            out.print("[{\"execution\" : \" failed \"}]");
+                        }
+
+                    }*/
+                } else if (requestedReport.intern() == "gate_log") //if the request is made to know about all the entries made at gate
+                {
+                    List<Student> allGateEntries = report.gateRegisterEntries(sqlStartDate, sqlEndDate);
+
+
+                        if(format != null && format.intern() == "json") {
+                            //converting list to JSON
+                            Converter studentGateEntries = new Converter();
+                            JSONArray studentGateEntriesArray = studentGateEntries.getJsonArray(allGateEntries);
+
+                            //print the JSON
+                            out.print(studentGateEntriesArray);
+                        }
+                        else if(format != null && format.intern() == "excel"){
+                            //user requested for excel report
+                            response.setContentType("application/vnd.ms-excel");
+                            response.setHeader("Content-Disposition", "attachment; filename=gateList_"+sqlStartDate+".xlsx");
+
+                            Converter lateStudentsListToExcel = new Converter();
+                            XSSFWorkbook excelFile=lateStudentsListToExcel.getExcelWorkbook(allGateEntries);
+                            try{
+                                excelFile.write(response.getOutputStream());
+                            } catch (Exception e){
+                                out.print("[{\"execution\" : \" failed \"}]");
+                            }
+                        }
+                }
+            } else {
+                out.print("[{\"execution\" : \"failed\"}]");
+            }
+        }else if(requestedReport.intern() == "students_present" || requestedReport.intern() == "students_absent"){
+            List<Student> studentsList=new ArrayList<>();
+
+            if(requestedReport.intern() == "students_present")
+                 studentsList=report.getAttendanceFromGate(1);
+            else if(requestedReport.intern() == "students_absent")
+                studentsList=report.getAttendanceFromGate(0);
+
+            if(format != null && format.intern() == "json") {
+                //convert to json array
                 Converter studentGateEntries = new Converter();
-                JSONArray studentGateEntriesArray = studentGateEntries.getJsonArray(allGateEntries);
+                JSONArray jsonStudentList = studentGateEntries.getJsonArray(studentsList);
 
-            /* //WORKING-------------------------------------
-            response.setContentType("application/vnd.ms-excel");
-            response.setHeader("Content-Disposition", "attachment; filename=filename.xls");
-            XSSFWorkbook excelFile=studentGateEntries.getExcelWorkbook(allGateEntries);
-            try{
-                //FileOutputStream performWrite = new FileOutputStream(new File("C:\\Users\\admin\\IdeaProjects\\LeaveBook\\web\\reports\\"));
-                //excelFile.write(performWrite);
-                excelFile.write(response.getOutputStream());
-                //performWrite.close();
-                //performWrite.flush();
-            }catch(Exception e){
-                out.print(e.getMessage());
-            }
-            */
+                //print json
+                out.print(jsonStudentList);
+            }else if(format != null && format.intern() == "excel"){
+                java.util.Date today=new java.util.Date();
+                response.setContentType("application/vnd.ms-excel");
+                response.setHeader("Content-Disposition", "attachment; filename=lateStudents"+today+".xlsx");
 
-                //print the JSON
-                out.print(studentGateEntriesArray);
+                Converter lateStudentsListToExcel = new Converter();
+                XSSFWorkbook excelFile=lateStudentsListToExcel.getExcelWorkbook(studentsList);
+                try{
+                    excelFile.write(response.getOutputStream());
+                } catch (Exception e){
+                    out.print("[{\"execution\" : \" failed \"}]");
+                }
+
             }
-        }else{
-            out.print("{\"execution\" : \"failed\"}");
         }
     }
 

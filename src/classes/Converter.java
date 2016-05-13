@@ -69,7 +69,7 @@ public class Converter {
         XSSFSheet sheet=studentWorkbook.createSheet("report");
 
         //setting column names in excel
-        Row row=sheet.createRow(1);
+        Row row=sheet.createRow(0);
         Cell cell=row.createCell(0);
         cell.setCellValue("Student Id");
         cell=row.createCell(1);
@@ -92,6 +92,109 @@ public class Converter {
         cell.setCellValue("Status");
 
 
+        Student firstStudent=listOfStudents.get(0);
+        if(firstStudent.permit != null)
+        {
+            cell=row.createCell(10);
+            cell.setCellValue("Date out");
+            cell=row.createCell(11);
+            cell.setCellValue("Time out");
+            cell=row.createCell(12);
+            cell.setCellValue("Date in ");
+            cell=row.createCell(13);
+            cell.setCellValue("Time in");
+        }
+        if(firstStudent.gateTimings != null && firstStudent.permit == null)
+        {
+            cell=row.createCell(10);
+            cell.setCellValue("Actual Date out");
+            cell=row.createCell(11);
+            cell.setCellValue("Actual Time out");
+            cell=row.createCell(12);
+            cell.setCellValue("Actual Date in ");
+            cell=row.createCell(13);
+            cell.setCellValue("Actual Time in");
+
+        }
+        else if(firstStudent.gateTimings != null && firstStudent.permit == null)
+        {
+            cell=row.createCell(14);
+            cell.setCellValue("Actual Date out");
+            cell=row.createCell(15);
+            cell.setCellValue("Actual Time out");
+            cell=row.createCell(16);
+            cell.setCellValue("Actual Date in ");
+            cell=row.createCell(17);
+            cell.setCellValue("Actual Time in");
+
+        }
+
+//        int rowCount=1;
+        for(int i=0;i<listOfStudents.size();i++)
+        {
+
+            Student singleStudent=listOfStudents.get(i);
+            row=sheet.createRow(i+1);
+            cell=row.createCell(0);
+            cell.setCellValue(singleStudent.getStudentId());
+            cell=row.createCell(1);
+            cell.setCellValue(singleStudent.getName());
+            cell=row.createCell(2);
+            cell.setCellValue(singleStudent.getPrimaryContact());
+            cell=row.createCell(3);
+            cell.setCellValue(singleStudent.getSecondaryContact());
+            cell=row.createCell(4);
+            cell.setCellValue(singleStudent.getBatch());
+            cell=row.createCell(5);
+            cell.setCellValue(singleStudent.getEmail());
+            cell=row.createCell(6);
+            cell.setCellValue(singleStudent.getHostel());
+            cell=row.createCell(7);
+            cell.setCellValue(singleStudent.getRoomNumber());
+            cell=row.createCell(8);
+            cell.setCellValue(singleStudent.getPermission());
+            cell=row.createCell(9);
+            cell.setCellValue(singleStudent.getStatus());
+            //rowCount++;
+
+
+
+            if(singleStudent.permit != null){
+
+                cell=row.createCell(10);
+                cell.setCellValue(singleStudent.permit.getDateOut().toString());
+                cell=row.createCell(11);
+                cell.setCellValue(singleStudent.permit.getTimeOut().toString());
+                cell=row.createCell(12);
+                cell.setCellValue(singleStudent.permit.getDateIn().toString());
+                cell=row.createCell(13);
+                cell.setCellValue(singleStudent.permit.getTimeIn().toString());
+            }
+            if(singleStudent.gateTimings != null && singleStudent.permit ==null){
+
+                cell=row.createCell(10);
+                cell.setCellValue(singleStudent.gateTimings.getDateOut().toString());
+                cell=row.createCell(11);
+                cell.setCellValue(singleStudent.gateTimings.getTimeOut().toString());
+                cell=row.createCell(12);
+                cell.setCellValue(singleStudent.gateTimings.getDateIn().toString());
+                cell=row.createCell(13);
+                cell.setCellValue(singleStudent.gateTimings.getTimeIn().toString());
+            }
+            else if(singleStudent.gateTimings != null && singleStudent.permit !=null){
+                cell=row.createCell(14);
+                cell.setCellValue(singleStudent.gateTimings.getDateOut().toString());
+                cell=row.createCell(15);
+                cell.setCellValue(singleStudent.gateTimings.getTimeOut().toString());
+                cell=row.createCell(16);
+                cell.setCellValue(singleStudent.gateTimings.getDateIn().toString());
+                cell=row.createCell(17);
+                cell.setCellValue(singleStudent.gateTimings.getTimeIn().toString());
+
+            }
+
+
+        }
         return studentWorkbook;
     }
 /*

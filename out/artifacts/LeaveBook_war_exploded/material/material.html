@@ -1,0 +1,288 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<link href="css/base.min.css" rel="stylesheet">
+    <link href="css/project.min.css" rel="stylesheet">
+	<style>
+	.header{
+	box-shadow: 0 1px 10px rgba(0,0,0,0.5);
+	}
+	html,body{
+	height:100%;
+	}
+	.first{
+	 display:inline-block;
+	 float:left;
+	 width:30%;
+	 height:35%;
+	 margin-left:2%;
+	 margin-top:10%;
+	}
+	.card-side-img{
+	height:100%;
+	}
+	.card-heading{
+	font-size:2vw;
+	margin-left:40%;
+	margin-top:20%;
+	}
+	.head{
+	font-size:1.4vw;
+	color:#ffffff;
+	padding-left:2vw;
+	}
+	
+	
+	.person{
+	display:block;
+	margin:auto;
+	width:40%;
+	margin-top:4%;
+	}
+	.name{
+	display:block;
+	margin:auto;
+	margin-top:4%;
+	}
+	
+	.report,.single_button_report{
+	display:inline-block;
+	width:20%;
+	margin-left:2%;
+	float:left;
+	}
+	</style>
+</head>
+<body>
+<header class="header header-waterfall header-red "><br>
+ <span class="head">ASHOKA UNIVERSITY </span>
+ </header>
+<br>
+<!--
+<br>
+<br>
+<div class="card first waves-attach waves-effect">
+    <aside class="card-side pull-left card-side-img"> 
+	<img src="images/samples/portrait.jpg"> 
+	</aside>
+	
+    <div class="card-main ">
+		<div class="card-inner ">
+			<p class="card-heading"><span style="margin-left:2%;"> Warden </span></p>
+			
+			
+		</div>
+	</div>
+</div>
+    
+
+<div class="card first waves-attach waves-effect">
+    <aside class="card-side pull-left card-side-img"> 
+	<img src="images/samples/portrait.jpg"> 
+	</aside>
+	
+    <div class="card-main ">
+		<div class="card-inner ">
+			<p class="card-heading"><span style="margin-left:2%;"> Gate </span></p>
+		</div>
+	</div>
+</div>
+
+
+<div class="card first waves-attach waves-effect">
+    <aside class="card-side pull-left card-side-img"> 
+	<img src="images/samples/portrait.jpg"> 
+	</aside>
+	
+    <div class="card-main ">
+		<div class="card-inner ">
+			<p class="card-heading"><span style="margin-left:2%;"> Report </span></p>
+		</div>
+	</div>
+</div>
+
+	<input class="form-control" id="selector" type="text">
+-->
+<br><br><br>
+		
+
+<div class="card report">
+    <div class="card-main">
+        <div class="card-header">
+            <!--For name-->
+            <div class="card-inner"> 
+				Late students
+				
+			</div>
+        </div>
+		
+		<div class="card-inner">
+                    <!--input date out element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+                        <label class="floating-label" for="late_students_start_date" > From : </label>
+                        <input class="form-control" name="start_date" id="late_students_start_date" type="text">
+                    </div><br>
+        </div>
+		<div class="card-inner">
+                    <!--input date out element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+                        <label class="floating-label" for="late_students_end_date" > To : </label>
+                        <input class="form-control" name="end_date" id="late_students_end_date" type="text">
+                    </div><br>
+        </div>
+		
+		<div class="card-action">
+						<!--input id element-->
+						<div class="form-group form-group-label name" style="height:10%;">
+							
+						<a id="late_students" class="btn btn-brand waves-attach waves-effect" value="submit"  onclick="getReport(this);return false;" style="display:block;margin:auto;width:80%;">SUBMIT</a>
+							<!--submitting form-->
+						</div><br>
+		</div>
+		<div class="card-action">
+						<!--input id element-->
+						<div class="form-group form-group-label name" style="height:10%;">
+							
+						<a class="btn btn-brand waves-attach waves-effect" id="late_students_excel_download" value="Download excel" onclick="downloadExcel(this)" style="display:block;margin:auto;width:80%;">Download excel</a>
+							<!--submitting form-->
+		</div><br>
+		</div>
+		</form>
+    </div>
+</div>
+	
+	
+	
+<div class="card report">
+    <div class="card-main">
+        <div class="card-header">
+            <!--For name-->
+            <div class="card-inner"> 
+	Gate log
+				
+			</div>
+        </div>
+		
+		<div class="card-inner">
+                    <!--input date out element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+                        <label class="floating-label" for="gate_start_date" > From : </label>
+                        <input class="form-control" name="start_date" id="gate_start_date" type="text">
+                    </div><br>
+        </div>
+		<div class="card-inner">
+                    <!--input date out element-->
+                    <div class="form-group form-group-label name" style="height:10%;">
+                        <label class="floating-label" for="gate_end_date" > To : </label>
+                        <input class="form-control" name="end_date" id="gate_end_date" type="text">
+                    </div><br>
+        </div>
+		
+		<div class="card-action">
+						<!--input id element-->
+						<div class="form-group form-group-label name" style="height:10%;">
+							
+						<a id="gate" class="btn btn-brand waves-attach waves-effect" value="submit"  onclick="getReport(this);return false;" style="display:block;margin:auto;width:80%;">SUBMIT</a>
+							<!--submitting form-->
+						</div><br>
+		</div>
+		<div class="card-action">
+						<!--input id element-->
+						<div class="form-group form-group-label name" style="height:10%;">
+							
+						<a class="btn btn-brand waves-attach waves-effect" id="gate_excel_download" value="Download excel" onclick="downloadExcel(this)" style="display:block;margin:auto;width:80%;">Download excel</a>
+							<!--submitting form-->
+		</div><br>
+		</div>
+		</form>
+    </div>
+</div>
+	
+	
+<div class="card single_button_report">
+    <div class="card-main">
+        <div class="card-inner"> 
+			<p class="card-heading">People on campus</p>
+		</div>
+        <div class="card-action"> 
+						<div class="form-group form-group-label name" style="height:10%;">
+							
+						<a class="btn btn-brand waves-attach waves-effect" id="on_campus" onsubmit="getReport(this);return false;" onclick="downloadExcel(this)" style="display:block;margin:auto;width:80%;">Show students list</a>
+						<br>
+						</div>
+		</div>
+		<div class="card-action"> 
+						<div class="form-group form-group-label name" style="height:10%;">
+							
+						<a class="btn btn-brand waves-attach waves-effect" id="on_campus_excel_download" value="Download excel" onclick="downloadExcel(this)" style="display:block;margin:auto;width:80%;">Download students list</a>
+						<br>
+						</div>
+		</div>
+    </div>
+</div>
+<div class="card single_button_report">
+    <div class="card-main">
+        <div class="card-inner"> 
+			<p class="card-heading">People off campus</p>
+		</div>
+        <div class="card-action"> 
+						<div class="form-group form-group-label name" style="height:10%;">
+						<a class="btn btn-brand waves-attach waves-effect" id="off_campus" onsubmit="getReport(this);return false;" onclick="downloadExcel(this)" style="display:block;margin:auto;width:80%;">Show students list</a>
+						<br>
+						</div>
+		</div>
+		<div class="card-action"> 
+						<div class="form-group form-group-label name" style="height:10%;">
+							
+						<a class="btn btn-brand waves-attach waves-effect" id="off_campus_excel_download" value="Download excel" onclick="downloadExcel(this)" style="display:block;margin:auto;width:80%;">Download students list</a>
+						<br>
+						</div>
+		</div>
+    </div>
+</div>
+<br><br>
+
+<div id="late_students_data">
+</div>
+<br>
+<div id="gate_data">
+</div>
+<br>
+<div id="on_campus_students_list">
+</div>
+<br>
+<div id="off_campus_students_list">
+</div>
+<br>
+<div class="table-responsive" style="display:block;clear:both;">
+ <table class="table">
+	<thead>
+		<tr>
+		<th>Paras</th>
+		<th>Paras</th>
+		</tr>
+		
+	</thead>
+	<tbody>
+		<tr>
+		<td>haha</td>
+		<tr>
+		
+	</tbody>
+ </table>
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  
+  <script src="js/base.min.js"></script>
+  <script src="js/project.min.js"></script>
+
+  <script>
+	// A $( document ).ready() block.
+$( document ).ready(function() {
+$('#late_students_end_date').pickdate({formatSubmit: 'dd/mmmm/yyyy'});
+$('#late_students_start_date').pickdate({formatSubmit: 'dd/mmmm/yyyy'});
+});
+	
+  </script >
+</html>
