@@ -32,5 +32,10 @@ Used for giving permission to one time permission users.
 Checks as per date out if the permission to go out on a particular day exists, if exists then updates the time out, date in and time in, else inserts the permission in the table.
 Outputs String 'success' if insert operation was successful, 'updated' for the update operation and 'failed' for neither of the two, and other form processing.
 
+<<<<<<< HEAD
 MakeExcel.java
 Responsible from reading form mysql database and write into excel file
+=======
+Excel.java
+Responsible from reading form mysql database and write into excel file
+>>>>>>> c444661e8ab5af64686d6c1a170f5e3356220606
