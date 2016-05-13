@@ -43,7 +43,7 @@ public class Permission {
     //function to give permission, requires setPermission details to called before
     public String givePermission(String studentId) {
         String execution = "failed";
-        Validate input = new Validate();
+        Validator input = new Validator();
 
         if (input.isStudentId(studentId) && input.isDate(dateOut) && input.isTime(timeOut) && input.isDate(dateIn) && input.isTime(timeIn)) {
             if (input.validateDates(dateOut, dateIn)) {      //   || dateIn.intern() == "0000-00-00"

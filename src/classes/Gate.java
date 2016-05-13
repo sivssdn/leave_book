@@ -46,7 +46,7 @@ public class Gate {
     public String logStudentExit(String studentId){
         String message="failed";
 
-        Validate input=new Validate();
+        Validator input=new Validator();
         //java.sql.date and time
         if (input.isStudentId(studentId)) {
 
@@ -81,21 +81,18 @@ public class Gate {
 
                             //permission for date out should lie before or be same as today's date and date_in in permissions should be greater than equal to today's date
                             //comparison type (date & date) & (time)
-<<<<<<< HEAD
+
                             //System.out.print("inside permisison");
-=======
->>>>>>> a92e4823aeb35724c838537bd5e679a1b48092fd
                             if ((studentPermissions.getDate("date_out").compareTo(sqlPresentDate) <= 0 && studentPermissions.getDate("date_in").compareTo(sqlPresentDate) >= 0) && (studentPermissions.getTime("time_out").compareTo(sqlPresentTime) <= 0)) {
                                 permissionFound = true;
                                 String insertStatement = "INSERT INTO `gate` (`serial`, `student_id`, `date_out`, `time_out`, `date_in`, `time_in`,`late`) VALUES (NULL, '" + studentId + "', '" + sqlPresentDate + "', '" + sqlPresentTime + "', '0000-00-00', '00:00','0');";
                                 message = gate.insert(insertStatement);
-<<<<<<< HEAD
+
 
                                 //update master to say the student is not on campus
                                 String updateStatement = "UPDATE master SET status=0 WHERE student_id='"+studentId+"'";
                                 gate.update(updateStatement);
-=======
->>>>>>> a92e4823aeb35724c838537bd5e679a1b48092fd
+
                                 break;
                             }
                         }
@@ -103,11 +100,11 @@ public class Gate {
                         if (!permissionFound) //in case of permission not found
                             message = "no permission";
                     }else
-<<<<<<< HEAD
+
                         message="no permission";
-=======
+
                         message="inserted";
->>>>>>> a92e4823aeb35724c838537bd5e679a1b48092fd
+
                 }catch(SQLException se){
                     message="failed";
                     return message;
@@ -124,7 +121,7 @@ public class Gate {
     public String logStudentEntry(String studentId){
         String execution="failed";
 
-        Validate input=new Validate();
+        Validator input=new Validator();
         //java.sql.date and time
         if (input.isStudentId(studentId)) {
 

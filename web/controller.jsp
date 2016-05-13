@@ -38,7 +38,7 @@
         String searchType=request.getParameter("search_type");
 
         //pass the field name, id or hid to autocomplete.java
-        Autocomplete studentDetails=new Autocomplete();
+        Autocompleter studentDetails=new Autocompleter();
         List<Student> studentsList=studentDetails.getAllDetails(searchField,searchType);
         //got result in List<Student>, store it in JSONObject array
 
@@ -82,7 +82,7 @@
         //----------------------GATE PART   -----------------------
         String hid=request.getParameter("hid");
 
-        Autocomplete student=new Autocomplete();
+        Autocompleter student=new Autocompleter();
         List<Student> studentDetails=student.getAllDetails(hid,"hid");
         Student studentWithDetails=new Student();
 
@@ -123,7 +123,7 @@
             java.sql.Date sqlStartDate = stringDates.toSqlDate(startDateInput);
             java.sql.Date sqlEndDate = stringDates.toSqlDate(endDateInput);
 
-            Validate checkDates = new Validate();
+            Validator checkDates = new Validator();
             if (checkDates.isDate(sqlStartDate) && checkDates.isDate(sqlEndDate)) {
 
 

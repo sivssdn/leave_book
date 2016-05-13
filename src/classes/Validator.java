@@ -11,7 +11,7 @@ import java.util.Date;
  *
  */
 
-public class Validate {
+public class Validator {
     /*
     public SimpleDateFormat isDate(String date) {
         SimpleDateFormat dateFormat=null;

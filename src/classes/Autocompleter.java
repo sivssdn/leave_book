@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Autocomplete {
+public class Autocompleter {
 
     /**
      * Input: searchField - like name or the id that is required to searched

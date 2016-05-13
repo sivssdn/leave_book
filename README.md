@@ -1,5 +1,3 @@
-#add index to key HID
-#big int to contact-master
 
 # leave_book
 The project aims at digitalizing the process of entry-exit at Ashoka using HID. 
@@ -18,21 +16,21 @@ Apache poi 3.9
 
 org.json
 
-Database.java:
+DataBase.java:
 
 Contains function to perform select, insert, update with transaction support.
 close() is necessary for making transaction to commit
 
-Validate.java
+Validator.java
 
 Contains functions to check if the input is valid date and time. Also contain function to test if the date out is less than or equal to date in.
 
-Permission.jsp
+controller.jsp
 
-Receives input from permission.html. 
+Receives input from html forms. 
 Used for giving permission to one time permission users.
 Checks as per date out if the permission to go out on a particular day exists, if exists then updates the time out, date in and time in, else inserts the permission in the table.
-Outputs String 'success' if insert operation was successful, 'updated' for the update operation and 'failed' for neither of the two.
+Outputs String 'success' if insert operation was successful, 'updated' for the update operation and 'failed' for neither of the two, and other form processing.
 
-Excel.java
+MakeExcel.java
 Responsible from reading form mysql database and write into excel file
